@@ -310,6 +310,29 @@ public partial class App : Application
     [DllImport("user32.dll")]
     private static extern bool IsIconic(IntPtr hWnd);
 
+    private delegate IntPtr WndProcDelegate(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+    private static WndProcDelegate? wndProcDelegate;
+    private static IntPtr oldWndProc = IntPtr.Zero;
+    private const uint WM_CLOSE = 0x0010;
+    private const int GWLP_WNDPROC = -4;
+
+    [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW", SetLastError = true)]
+    private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+    [DllImport("user32.dll", EntryPoint = "SetWindowLongW", SetLastError = true)]
+    private static extern int SetWindowLong32(IntPtr hWnd, int nIndex, int dwNewLong);
+
+    private static IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
+    {
+        if (IntPtr.Size == 8)
+            return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
+        else
+            return new IntPtr(SetWindowLong32(hWnd, nIndex, dwNewLong.ToInt32()));
+    }
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    private static extern IntPtr CallWindowProc(IntPtr lpPrevWndFunc, IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
     private const int SW_HIDE = 0;
     private const int SW_RESTORE = 9;
     private const int SW_SHOW = 5;
@@ -426,6 +449,45 @@ public partial class App : Application
         catch (Exception ex)
         {
             Debug.WriteLine($"[App] Failed to hook AppWindow.Closing: {ex.Message}");
+        }
+
+        if (OperatingSystem.IsWindows())
+        {
+            MainWindow.DispatcherQueue.TryEnqueue(async () =>
+            {
+                await Task.Delay(500);
+                var hWnd = GetMainWindowHandle();
+                if (hWnd != IntPtr.Zero)
+                {
+                    SetupWin32CloseHook(hWnd);
+                }
+            });
+        }
+    }
+
+    private static void SetupWin32CloseHook(IntPtr hWnd)
+    {
+        try
+        {
+            if (oldWndProc != IntPtr.Zero) return;
+
+            wndProcDelegate = (h, msg, wp, lp) =>
+            {
+                if (msg == WM_CLOSE && HandleClosedEvents)
+                {
+                    HideMainWindow();
+                    ShowFirstTimeTrayNotification();
+                    return IntPtr.Zero;
+                }
+                return CallWindowProc(oldWndProc, h, msg, wp, lp);
+            };
+
+            var newWndProcPtr = Marshal.GetFunctionPointerForDelegate(wndProcDelegate);
+            oldWndProc = SetWindowLongPtr(hWnd, GWLP_WNDPROC, newWndProcPtr);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[App] SetupWin32CloseHook error: {ex.Message}");
         }
     }
 
