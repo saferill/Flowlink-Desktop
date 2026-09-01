@@ -12,10 +12,6 @@ public partial class ServerSession : SslSession
     public ServerSession(SslServer server, ITcpServerProvider socketProvider) : base(server)
     {
         this.socketProvider = socketProvider;
-        OptionNoDelay = true;
-        OptionReceiveBufferSize = 2 * 1024 * 1024;
-        OptionSendBufferSize = 2 * 1024 * 1024;
-        OptionKeepAlive = true;
     }
 
     protected override void OnDisconnected()
@@ -25,6 +21,13 @@ public partial class ServerSession : SslSession
 
     protected override void OnConnected()
     {
+        try
+        {
+            Socket.NoDelay = true;
+            Socket.ReceiveBufferSize = 2 * 1024 * 1024;
+            Socket.SendBufferSize = 2 * 1024 * 1024;
+        }
+        catch { }
         socketProvider.OnConnected(this);
     }
 

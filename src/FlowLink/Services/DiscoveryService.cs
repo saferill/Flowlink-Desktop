@@ -354,7 +354,32 @@ public class DiscoveryService(
                         // Only support IPv4 for simplicity
                         if (ip.Contains(':')) continue; 
 
-                        // Attempt connection on our server ports
+                        // 1. Direct UDP broadcast announcement to phone's FlowLink port (5149)
+                        if (BroadcastMessage != null && udpClient != null && IPAddress.TryParse(ip, out var targetIp))
+                        {
+                            try
+                            {
+                                string json = JsonMessageSerializer.Serialize(BroadcastMessage);
+                                byte[] bytes = Encoding.UTF8.GetBytes(json);
+                                udpClient.Socket.SendTo(bytes, new IPEndPoint(targetIp, DiscoveryPort));
+                                
+                                lock (broadcastEndpoints)
+                                {
+                                    var ep = new IPEndPoint(targetIp, DiscoveryPort);
+                                    if (!broadcastEndpoints.Any(e => e.Address.Equals(targetIp) && e.Port == DiscoveryPort))
+                                    {
+                                        broadcastEndpoints.Add(ep);
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.Warn($"Failed to send Tailscale direct UDP to {ip}: {ex.Message}");
+                            }
+                        }
+
+                        // 2. Proactively initiate TLS connection to Android across all server ports (5149 to 5169)
+                        sessionManager.ConnectTo(ip, ip, DiscoveryPort);
                         foreach (int port in PORT_RANGE)
                         {
                             sessionManager.ConnectTo(ip, ip, port);
