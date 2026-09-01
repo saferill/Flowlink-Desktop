@@ -1,0 +1,151 @@
+<Project Sdk="Uno.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>net9.0-windows10.0.26100;net9.0-desktop</TargetFrameworks>
+
+        <OutputType>Exe</OutputType>
+        <UnoSingleProject>true</UnoSingleProject>
+
+        <!-- Display name -->
+        <ApplicationTitle>FlowLink</ApplicationTitle>
+        <!-- App Identifier -->
+        <ApplicationId>com.flowlink.castle</ApplicationId>
+        <!-- Versions -->
+        <ApplicationDisplayVersion>2.4.0</ApplicationDisplayVersion>
+        <ApplicationVersion>8</ApplicationVersion>
+        <!-- Package Publisher -->
+        <ApplicationPublisher>safe_rill</ApplicationPublisher>
+        <!-- Package Description -->
+        <Description>FlowLink powered by Uno Platform.</Description>
+        <!--
+            If you encounter this error message:
+
+            error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+            Please update to a newer .NET SDK in order to reference this assembly.
+
+            This means that the two packages below must be aligned with the "build" version number of
+            the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+            must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+        -->
+        <!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+
+        <!--
+            UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
+            https://aka.platform.uno/singleproject-features
+        -->
+        <UnoFeatures>
+            Lottie;
+            Hosting;
+            Toolkit;
+            Logging;
+            LoggingSerilog;
+            Mvvm;
+            Configuration;
+            Localization;
+            ThemeService;
+            SkiaRenderer;
+        </UnoFeatures>
+        <Platforms>x64;ARM64;x86</Platforms>
+        <LangVersion>Preview</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+
+    <PropertyGroup Condition="'$(UapAppxPackageBuildMode)' == 'StoreUpload'">
+        <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(UapAppxPackageBuildMode)' == 'Sideloading'">
+        <GenerateTemporaryStoreCertificate>False</GenerateTemporaryStoreCertificate>
+        <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+        <PackageCertificateKeyFile>FlowLink_TemporaryKey.pfx</PackageCertificateKeyFile>
+        <PackageCertificateThumbprint>276047138A50F9695B57C0E0763E5A414C03B049</PackageCertificateThumbprint>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <UnoIconForegroundFile>Assets\Icons\icon_foreground.svg</UnoIconForegroundFile>
+        <UnoIconBackgroundColor Condition="'$(IsWinAppSdk)' == 'true'">Transparent</UnoIconBackgroundColor>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net9.0-windows10.0.26100'">
+        <StartupObject>FlowLink.Platforms.Windows.Program</StartupObject>
+        <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net9.0-desktop'">
+        <StartupObject>Program</StartupObject>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net9.0-windows10.0.26100'">
+        <PublishTrimmed>false</PublishTrimmed>
+        <TrimMode>partial</TrimMode>
+        <!-- Disable ILLink  -->
+        <RunILLink>false</RunILLink>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-windows10.0.26100'">
+        <RuntimeHostConfigurationOption Include="System.Runtime.InteropServices.BuiltInComInterop.IsSupported" Value="true" />
+        <RuntimeHostConfigurationOption Include="System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization" Value="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Assets\Icons\IconResource.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="AdvancedSharpAdbClient" />
+        <PackageReference Include="BouncyCastle.Cryptography" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
+        <PackageReference Include="CommunityToolkit.WinUI.Converters" />
+        <PackageReference Include="CommunityToolkit.WinUI.Extensions" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" />
+        <PackageReference Include="H.NotifyIcon.Uno.WinUI" />
+        <PackageReference Include="libphonenumber-csharp" />
+        <PackageReference Include="MeaMod.DNS" />
+        <PackageReference Include="NAudio" />
+        <PackageReference Include="NetCoreServer" />
+        <PackageReference Include="sqlite-net-pcl" />
+        <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" />
+        <PackageReference Include="SQLitePCLRaw.provider.sqlite3" />
+        <PackageReference Include="SSH.NET" />
+        <PackageReference Include="Tmds.DBus" />
+        <PackageReference Include="Vanara.PInvoke.CldApi" />
+        <PackageReference Include="Vanara.PInvoke.Ole" />
+        <PackageReference Include="Vanara.PInvoke.Shell32" />
+        <PackageReference Include="QRCoder" />
+        <!-- Velopack: professional installer & auto-update (replaces Inno Setup + Microsoft Store API) -->
+        <PackageReference Include="Velopack" Condition="'$(TargetFramework)' == 'net9.0-desktop'" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <UnoSplashScreen Update="Assets\Splash\splash_screen.svg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </UnoSplashScreen>
+    </ItemGroup>
+
+    <!-- Hosted app PRI generation: bundle Windows SDK mrmsupport.dll into the MSIX package. -->
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net9.0-windows10.0.26100'">
+        <FlowLinkMrmSupportSdkVersion Condition="'$(FlowLinkMrmSupportSdkVersion)' == ''">10.0.26100.0</FlowLinkMrmSupportSdkVersion>
+        <FlowLinkMrmSupportSdkArch Condition="'$(Platform)' == 'ARM64'">arm64</FlowLinkMrmSupportSdkArch>
+        <FlowLinkMrmSupportSdkArch Condition="'$(FlowLinkMrmSupportSdkArch)' == ''">x64</FlowLinkMrmSupportSdkArch>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net9.0-windows10.0.26100' and '$(FlowLinkMrmSupportDll)' == '' and Exists('C:\Program Files (x86)\Windows Kits\10\bin\$(FlowLinkMrmSupportSdkVersion)\$(FlowLinkMrmSupportSdkArch)\mrmsupport.dll')">
+        <FlowLinkMrmSupportDll>C:\Program Files (x86)\Windows Kits\10\bin\$(FlowLinkMrmSupportSdkVersion)\$(FlowLinkMrmSupportSdkArch)\mrmsupport.dll</FlowLinkMrmSupportDll>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net9.0-windows10.0.26100' and '$(FlowLinkMrmSupportDll)' == '' and Exists('C:\Program Files\Windows Kits\10\bin\$(FlowLinkMrmSupportSdkVersion)\$(FlowLinkMrmSupportSdkArch)\mrmsupport.dll')">
+        <FlowLinkMrmSupportDll>C:\Program Files\Windows Kits\10\bin\$(FlowLinkMrmSupportSdkVersion)\$(FlowLinkMrmSupportSdkArch)\mrmsupport.dll</FlowLinkMrmSupportDll>
+    </PropertyGroup>
+    <Target Name="IncludeMrmSupportDll"
+            BeforeTargets="PrepareForBuild"
+            Condition="'$(TargetFramework)' == 'net9.0-windows10.0.26100' and '$(Platform)' != 'Any CPU' and '$(Platform)' != 'x86'">
+        <Error Condition="'$(FlowLinkMrmSupportDll)' == '' or !Exists('$(FlowLinkMrmSupportDll)')"
+               Text="Windows SDK mrmsupport.dll was not found. Install the Windows SDK or set FlowLinkMrmSupportDll." />
+        <ItemGroup>
+            <Content Include="$(FlowLinkMrmSupportDll)">
+                <Link>mrmsupport.dll</Link>
+                <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </Content>
+        </ItemGroup>
+    </Target>
+</Project>

@@ -1,0 +1,8 @@
+{
+  "msbuild-sdks": {
+    "Uno.Sdk": "6.6.0-dev.156"
+  },
+  "sdk": {
+    "allowPrerelease": true
+  }
+}

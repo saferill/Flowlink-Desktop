@@ -1,0 +1,73 @@
+<Page
+    x:Class="FlowLink.Views.ScreenMirrorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:FlowLink.Helpers"
+    mc:Ignorable="d"
+    Background="Transparent"
+    Loaded="Page_Loaded"
+    Unloaded="Page_Unloaded">
+
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock
+            Grid.Row="0"
+            Margin="24,16,24,8"
+            FontSize="24"
+            FontWeight="SemiBold"
+            Text="Screen Mirroring" />
+
+        <!-- Container for scrcpy -->
+        <Grid
+            Grid.Row="1"
+            x:Name="ContainerGrid"
+            Margin="24,8,24,24"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="8"
+            SizeChanged="ContainerGrid_SizeChanged">
+            
+            <!-- Default placeholder when not mirroring -->
+            <StackPanel
+                x:Name="PlaceholderPanel"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="16">
+                
+                <ProgressRing
+                    x:Name="ConnectingProgress"
+                    Width="48"
+                    Height="48"
+                    IsActive="False"
+                    Visibility="Collapsed" />
+                
+                <FontIcon
+                    x:Name="PlaceholderIcon"
+                    Glyph="&#xE7F4;"
+                    FontSize="48"
+                    Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" />
+                
+                <TextBlock
+                    x:Name="PlaceholderText"
+                    Text="Screen mirroring is not active."
+                    FontSize="16"
+                    Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" />
+                
+                <Button
+                    x:Name="StartMirroringButton"
+                    Content="Start Mirroring"
+                    Style="{StaticResource AccentButtonStyle}"
+                    HorizontalAlignment="Center"
+                    Click="StartMirroringButton_Click" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

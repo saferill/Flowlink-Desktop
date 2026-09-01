@@ -1,0 +1,881 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>О программе</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Основные</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>Политика конфиденциальности</value>
+  </data>
+  <data name="SupportDevelopment" xml:space="preserve">
+    <value>Поддержать разработку</value>
+  </data>
+  <data name="OpenLogs" xml:space="preserve">
+    <value>Открыть логи</value>
+  </data>
+  <data name="GitHubRepository" xml:space="preserve">
+    <value>Репозиторий на GitHub</value>
+  </data>
+  <data name="AndroidGitHubRepository" xml:space="preserve">
+    <value>Репозиторий GitHub Android</value>
+  </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Обратная связь</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Уведомления</value>
+  </data>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Сторонние библиотеки</value>
+  </data>
+  <data name="SaveLocation" xml:space="preserve">
+    <value>Путь сохранения</value>
+  </data>
+  <data name="RemoteStorageLocation" xml:space="preserve">
+    <value>Расположение удаленного хранилища</value>
+  </data>
+  <data name="ShowClipboardToast" xml:space="preserve">
+    <value>Показать всплывающее окно буфера обмена</value>
+  </data>
+  <data name="ClipboardFiles" xml:space="preserve">
+    <value>Добавить полученные файлы в буфер обмена</value>
+  </data>
+  <data name="GeneralSettings" xml:space="preserve">
+    <value>Общие Настройки</value>
+  </data>
+  <data name="ShowNotificationToast" xml:space="preserve">
+    <value>Показывать всплывающее уведомление</value>
+  </data>
+  <data name="IgnoreWindowsApps" xml:space="preserve">
+    <value>Игнорировать удаленные уведомления от активных приложений Windows</value>
+  </data>
+  <data name="NotificationFilterDisabled.Content" xml:space="preserve">
+    <value>Выкл</value>
+  </data>
+  <data name="NotificationFilterFeed.Content" xml:space="preserve">
+    <value>Лента уведомлений</value>
+  </data>
+  <data name="NotificationFilterToastFeed.Content" xml:space="preserve">
+    <value>Лента уведомлений + всплывающее уведомление</value>
+  </data>
+  <data name="AvailableDevices.Title" xml:space="preserve">
+    <value>Доступные устройства</value>
+  </data>
+  <data name="AvailableDevices.Subtitle" xml:space="preserve">
+    <value>Android устройства, запущенные в одной сети, будут показаны ниже</value>
+  </data>
+  <data name="StartupOption" xml:space="preserve">
+    <value>Параметры запуска</value>
+  </data>
+  <data name="StartupOptionDescription" xml:space="preserve">
+    <value>Выберите, как запускается приложение при загрузке Windows</value>
+  </data>
+  <data name="StartupOptionMinimized.Content" xml:space="preserve">
+    <value>Запускать свернутым</value>
+  </data>
+  <data name="StartupOptionMaximized.Content" xml:space="preserve">
+    <value>В полный экран</value>
+  </data>
+  <data name="StartupOptionSystemTray.Content" xml:space="preserve">
+    <value>Запустить в системном трее</value>
+  </data>
+  <data name="StartupOptionDisabled.Content" xml:space="preserve">
+    <value>Выкл</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="ThemeDescription" xml:space="preserve">
+    <value>Выберите тему приложения по умолчанию</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>По умолчанию</value>
+  </data>
+  <data name="ThemeLight.Content" xml:space="preserve">
+    <value>Светлый</value>
+  </data>
+  <data name="ThemeDark.Content" xml:space="preserve">
+    <value>Тёмная</value>
+  </data>
+  <data name="RemoveDeviceDialogTitle" xml:space="preserve">
+    <value>Удалить устройство</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="OnboardingWelcome.Title" xml:space="preserve">
+    <value>Добро пожаловать в FlowLink</value>
+  </data>
+  <data name="OnboardingWelcome.Subtitle" xml:space="preserve">
+    <value>Для начала загрузите и установите сопутствующее приложение через соответствующую страницу GitHub.</value>
+  </data>
+  <data name="OnboardingWelcomeGetStarted" xml:space="preserve">
+    <value>Начнём</value>
+  </data>
+  <data name="OnboardingSkip" xml:space="preserve">
+    <value>Пропустить</value>
+  </data>
+  <data name="OnboardingDevice.Title" xml:space="preserve">
+    <value>Подключите свое устройство</value>
+  </data>
+  <data name="OnboardingDevice.Subtitle" xml:space="preserve">
+    <value>Отсканируйте QR код или подключитесь напрямую к найденным устройствам ниже</value>
+  </data>
+  <data name="ConnectionRequest.Title" xml:space="preserve">
+    <value>Запрос на подключение устройства</value>
+  </data>
+  <data name="ConnectionRequest.Subtitle" xml:space="preserve">
+    <value>Проверьте, совпадает ли ключ доступа на обоих устройствах:</value>
+  </data>
+  <data name="ConnectionRequestRejectButton" xml:space="preserve">
+    <value>Отклонить</value>
+  </data>
+  <data name="NotificationsClearButton" xml:space="preserve">
+    <value>Очистить все</value>
+  </data>
+  <data name="ConnectionRequestAcceptButton" xml:space="preserve">
+    <value>Принять</value>
+  </data>
+  <data name="NoDevicesFound" xml:space="preserve">
+    <value>Устройств не найдено</value>
+  </data>
+  <data name="OpenLinksInBrowser" xml:space="preserve">
+    <value>Открывать ссылки в браузере</value>
+  </data>
+  <data name="Connected.Text" xml:space="preserve">
+    <value>Подключен</value>
+  </data>
+  <data name="Disconnected.Text" xml:space="preserve">
+    <value>Отключен</value>
+  </data>
+  <data name="ShowHideWindow" xml:space="preserve">
+    <value>Показать/Скрыть Окно</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="SelectLocation" xml:space="preserve">
+    <value>Выберите местоположение</value>
+  </data>
+  <data name="RemoveDeviceDialogSubtitle" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить '{0}'? Это действие нельзя отменить.</value>
+  </data>
+  <data name="AppSpecificSettings" xml:space="preserve">
+    <value>Настройки для отдельных приложений</value>
+  </data>
+  <data name="SendButton" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="ReplyPlaceholder" xml:space="preserve">
+    <value>Введите ответ</value>
+  </data>
+  <data name="FileTransferNotificationAction.OpenFile" xml:space="preserve">
+    <value>Открыть файл</value>
+  </data>
+  <data name="FileTransferNotificationAction.OpenFolder" xml:space="preserve">
+    <value>Открыть папку</value>
+  </data>
+  <data name="NotificationFilterButton" xml:space="preserve">
+    <value>Выключить уведомления от {0}</value>
+  </data>
+  <data name="SubmitBugReport" xml:space="preserve">
+    <value>Сообщить об ошибке</value>
+  </data>
+  <data name="SubmitFeatureRequest" xml:space="preserve">
+    <value>Предложить новую функцию</value>
+  </data>
+  <data name="IgnoreNotificationDuringDnd" xml:space="preserve">
+    <value>Не отображать всплывающие уведомления, когда устройство находится в беззвучном режиме</value>
+  </data>
+  <data name="Devices.Title" xml:space="preserve">
+    <value>Устройства</value>
+  </data>
+  <data name="Pin" xml:space="preserve">
+    <value>Закрепить</value>
+  </data>
+  <data name="Unpin" xml:space="preserve">
+    <value>Открепить</value>
+  </data>
+  <data name="VideoSettings" xml:space="preserve">
+    <value>Настройки видео</value>
+  </data>
+  <data name="AudioSettings" xml:space="preserve">
+    <value>Настройки звука</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>Открыть в приложении</value>
+  </data>
+  <data name="ScreenOff" xml:space="preserve">
+    <value>Во время трансляции отключайте экран устройства</value>
+  </data>
+  <data name="PhysicalKeyboard" xml:space="preserve">
+    <value>Отключить экранную клавиатуру</value>
+  </data>
+  <data name="Bitrate" xml:space="preserve">
+    <value>Битрейт</value>
+  </data>
+  <data name="Resolution" xml:space="preserve">
+    <value>Разрешение</value>
+  </data>
+  <data name="Buffer" xml:space="preserve">
+    <value>Буфер</value>
+  </data>
+  <data name="Messages" xml:space="preserve">
+    <value>Сообщения</value>
+  </data>
+  <data name="EmptyMessages" xml:space="preserve">
+    <value>Начните новый разговор, чтобы использовать</value>
+  </data>
+  <data name="MessagePlaceholder" xml:space="preserve">
+    <value>Написать сообщение</value>
+  </data>
+  <data name="Apps" xml:space="preserve">
+    <value>Приложения</value>
+  </data>
+  <data name="NewMessage" xml:space="preserve">
+    <value>Новое сообщение</value>
+  </data>
+  <data name="SearchMessages" xml:space="preserve">
+    <value>Поиск сообщений</value>
+  </data>
+  <data name="AddressInputPlaceholder" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="RemoveAddress" xml:space="preserve">
+    <value>Удалить адрес</value>
+  </data>
+  <data name="CopyMessage" xml:space="preserve">
+    <value>Скопировать сообщение</value>
+  </data>
+  <data name="NoApps" xml:space="preserve">
+    <value>Не найдено приложений</value>
+  </data>
+  <data name="AdditionalArguments" xml:space="preserve">
+    <value>Дополнительные аргументы</value>
+  </data>
+  <data name="AdbDeviceOffline" xml:space="preserve">
+    <value>Adb устройство не в сети</value>
+  </data>
+  <data name="AdbDeviceOfflineDescription" xml:space="preserve">
+    <value>Подключите устройство через USB с включенной отладкой по USB и повторите попытку.</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="ScrcpyNotFound" xml:space="preserve">
+    <value>Scrcpy не найден</value>
+  </data>
+  <data name="ScrcpyNotFoundDescription" xml:space="preserve">
+    <value>Выберите папку, в которой находится scrcpy</value>
+  </data>
+  <data name="SearchApps" xml:space="preserve">
+    <value>Поиск приложений</value>
+  </data>
+  <data name="DisableVideoForwarding" xml:space="preserve">
+    <value>Отключить перенаправление видео</value>
+  </data>
+  <data name="VideoCodec" xml:space="preserve">
+    <value>Видеокодек</value>
+  </data>
+  <data name="FrameRate" xml:space="preserve">
+    <value>Частота кадров</value>
+  </data>
+  <data name="Crop" xml:space="preserve">
+    <value>Обрезать</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>Экран</value>
+  </data>
+  <data name="VirtualDisplaySize" xml:space="preserve">
+    <value>Размер виртуального экрана</value>
+  </data>
+  <data name="DisplayOrientation" xml:space="preserve">
+    <value>Ориентация экрана</value>
+  </data>
+  <data name="RotationAngle" xml:space="preserve">
+    <value>Угол поворота</value>
+  </data>
+  <data name="AudioOutputMode" xml:space="preserve">
+    <value>Аудиовыход</value>
+  </data>
+  <data name="ForwardMicrophone" xml:space="preserve">
+    <value>Перенаправление микрофона</value>
+  </data>
+  <data name="AudioOutputBuffer" xml:space="preserve">
+    <value>Буфер аудиовыхода</value>
+  </data>
+  <data name="AudioCodec" xml:space="preserve">
+    <value>Аудиокодек</value>
+  </data>
+  <data name="AdbSettings" xml:space="preserve">
+    <value>Настройки Adb</value>
+  </data>
+  <data name="AutoConnect" xml:space="preserve">
+    <value>Автоматическое подключение</value>
+  </data>
+  <data name="Both" xml:space="preserve">
+    <value>Оба</value>
+  </data>
+  <data name="DesktopDevice" xml:space="preserve">
+    <value>Настольное устройство</value>
+  </data>
+  <data name="RemoteDevice" xml:space="preserve">
+    <value>Удалить устройство</value>
+  </data>
+  <data name="SelectDevice" xml:space="preserve">
+    <value>Выбрать устройство</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Начать</value>
+  </data>
+  <data name="ScrcpyDevicePreference" xml:space="preserve">
+    <value>Настройки устройства</value>
+  </data>
+  <data name="AskEverytime" xml:space="preserve">
+    <value>Спрашивать каждый раз</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Автоматически</value>
+  </data>
+  <data name="ScrcpyErrorTitle" xml:space="preserve">
+    <value>Не удалось запустить Scrcpy</value>
+  </data>
+  <data name="CopyError" xml:space="preserve">
+    <value>Скопировать ошибку</value>
+  </data>
+  <data name="DeviceName" xml:space="preserve">
+    <value>Имя устройства</value>
+  </data>
+  <data name="EnableVirtualDisplay" xml:space="preserve">
+    <value>Включить виртуальный экран</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="UnlockDeviceHelpTitle" xml:space="preserve">
+    <value>Помощь команд оболочки</value>
+  </data>
+  <data name="UnlockDeviceHelpDescription" xml:space="preserve">
+    <value>Команды оболочки в текстовом поле будут выполнены перед запуском scrcpy. Введите команды, которые работают на вашем устройстве, разделяя их по строкам. Используйте %pwd% для замещения вашего пароля, если вам нужно ввести его.</value>
+  </data>
+  <data name="UnlockDeviceHelpExample" xml:space="preserve">
+    <value>Пример:</value>
+  </data>
+  <data name="PinnedApps" xml:space="preserve">
+    <value>Закрепленные приложения</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="ActionsDescription" xml:space="preserve">
+    <value>Настроить пользовательские действия и команды для выполнения</value>
+  </data>
+  <data name="AdbNoDevice" xml:space="preserve">
+    <value>Устройство ADB не подключено</value>
+  </data>
+  <data name="AdbNoDeviceSubtitle" xml:space="preserve">
+    <value>Включите ADB и подключите устройство через USB или Wi-Fi, чтобы увидеть его здесь.</value>
+  </data>
+  <data name="ClipboardSettings" xml:space="preserve">
+    <value>Настройки буфера обмена</value>
+  </data>
+  <data name="DeviceSettings" xml:space="preserve">
+    <value>Настройки устройства</value>
+  </data>
+  <data name="NotificationSettings" xml:space="preserve">
+    <value>Настройки уведомлений</value>
+  </data>
+  <data name="ScreenMirrorSettings" xml:space="preserve">
+    <value>Настройки зеркального экрана</value>
+  </data>
+  <data name="OpenLinksInBrowserDescription" xml:space="preserve">
+    <value>Автоматически открывать ссылки из буфера обмена в браузере</value>
+  </data>
+  <data name="ShowClipboardToastDescription" xml:space="preserve">
+    <value>Показывать всплывающие уведомления об изменениях в буфере обмена</value>
+  </data>
+  <data name="ClipboardFilesDescription" xml:space="preserve">
+    <value>Включить синхронизацию файлов через буфер обмена</value>
+  </data>
+  <data name="AutoConnectDescription" xml:space="preserve">
+    <value>Автоматически подключаться к ADB при подключении устройства</value>
+  </data>
+  <data name="SyncClipboardChanges" xml:space="preserve">
+    <value>Синхронизировать изменения буфера обмена с этим устройством</value>
+  </data>
+  <data name="ConfigureNotificationSettings" xml:space="preserve">
+    <value>Настройка параметров уведомлений</value>
+  </data>
+  <data name="DisplayToastNotifications" xml:space="preserve">
+    <value>Показывать всплывающие уведомления на этом ПК</value>
+  </data>
+  <data name="ShowBadge" xml:space="preserve">
+    <value>Показывать значок</value>
+  </data>
+  <data name="ShowBadgeDescription" xml:space="preserve">
+    <value>Показывать значок уведомления на панели задач</value>
+  </data>
+  <data name="IgnoreDuringDoNotDisturb" xml:space="preserve">
+    <value>Игнорировать режим "Не беспокоить"</value>
+  </data>
+  <data name="IgnoreDuringDoNotDisturbDescription" xml:space="preserve">
+    <value>Не показывать уведомления, когда включен режим "Не беспокоить"</value>
+  </data>
+  <data name="ConnectionPreference" xml:space="preserve">
+    <value>Настройки подключения</value>
+  </data>
+  <data name="AddAction" xml:space="preserve">
+    <value>Добавить действие</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="NoActionsConfigured" xml:space="preserve">
+    <value>Действия не настроены</value>
+  </data>
+  <data name="ActionName" xml:space="preserve">
+    <value>Имя действия</value>
+  </data>
+  <data name="ExecutablePath" xml:space="preserve">
+    <value>Расположение исполняемого файла</value>
+  </data>
+  <data name="Arguments" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="StartInDirectory" xml:space="preserve">
+    <value>Начинать из папки</value>
+  </data>
+  <data name="EnterActionName" xml:space="preserve">
+    <value>Введите имя действия</value>
+  </data>
+  <data name="PathToExecutable" xml:space="preserve">
+    <value>Путь к исполняемому файлу</value>
+  </data>
+  <data name="CommandLineArguments" xml:space="preserve">
+    <value>Параметры командной строки (необязательно)</value>
+  </data>
+  <data name="EnterPassword" xml:space="preserve">
+    <value>Введите пароль</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Ответить</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Обзор</value>
+  </data>
+  <data name="EnterAddressesAndCompose" xml:space="preserve">
+    <value>Введите адрес выше и напишите сообщение ниже</value>
+  </data>
+  <data name="UseTcpIpMode" xml:space="preserve">
+    <value>Использовать TCP/IP режим</value>
+  </data>
+  <data name="UseTcpIpModeDescription" xml:space="preserve">
+    <value>Включить беспроводную отладку ADB</value>
+  </data>
+  <data name="WorkingDirectory" xml:space="preserve">
+    <value>Рабочая папка (необязательно)</value>
+  </data>
+  <data name="UnlockDeviceBeforeLaunch" xml:space="preserve">
+    <value>Разблокируйте устройство перед запуском scrcpy</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="FileTransferNotification.Receiving" xml:space="preserve">
+    <value>Получение от {0}</value>
+  </data>
+  <data name="FileTransferNotification.Sending" xml:space="preserve">
+    <value>Отправка на {0}</value>
+  </data>
+  <data name="FileTransferNotification.ReceivingBulk" xml:space="preserve">
+    <value>Получение {0} файлов от {1}</value>
+  </data>
+  <data name="FileTransferNotification.SendingBulk" xml:space="preserve">
+    <value>Отправка {0} файлов на {1}</value>
+  </data>
+  <data name="FileTransferNotification.Completed" xml:space="preserve">
+    <value>Передача файла завершена</value>
+  </data>
+  <data name="FileTransferNotification.CompletedSingle" xml:space="preserve">
+    <value>Получено {0} от {1}</value>
+  </data>
+  <data name="FileTransferNotification.CompletedBulk" xml:space="preserve">
+    <value>Получено {0} файлов от {1}</value>
+  </data>
+  <data name="FileTransferNotification.SentSingle" xml:space="preserve">
+    <value>Отправлено {0} на {1}</value>
+  </data>
+  <data name="FileTransferNotification.SentBulk" xml:space="preserve">
+    <value>Отправлено {0} файлов на {1}</value>
+  </data>
+  <data name="FileTransferNotificationAction.Cancel" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="NoPairedDevices" xml:space="preserve">
+    <value>Нет подключенных устройств</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="HostnamePlaceholder" xml:space="preserve">
+    <value>Введите hostname или IP адрес</value>
+  </data>
+  <data name="UnlockCommandsPlaceholder" xml:space="preserve">
+    <value>input keyevent 26
+input keyevent 66
+input text %pwd%</value>
+  </data>
+  <data name="FileDropCaption" xml:space="preserve">
+    <value>Перетащите файл для отправки</value>
+  </data>
+  <data name="DeviceAddresses" xml:space="preserve">
+    <value>Адреса устройств</value>
+  </data>
+  <data name="ManageAddressesAndPriority" xml:space="preserve">
+    <value>Управление адресами и приоритетом подключения</value>
+  </data>
+  <data name="StorageAccess" xml:space="preserve">
+    <value>Отображать устройство в Проводнике</value>
+  </data>
+  <data name="StorageAccessDescription" xml:space="preserve">
+    <value>Включить / отключить доступ к хранилищу этого устройства в Проводнике</value>
+  </data>
+  <data name="AudioSilent" xml:space="preserve">
+    <value>Беззвучный</value>
+  </data>
+  <data name="AudioVibrate" xml:space="preserve">
+    <value>Вибрация</value>
+  </data>
+  <data name="AudioRing" xml:space="preserve">
+    <value>Звук</value>
+  </data>
+  <data name="AudioMedia" xml:space="preserve">
+    <value>Медиа</value>
+  </data>
+  <data name="AudioNotification" xml:space="preserve">
+    <value>Уведомление</value>
+  </data>
+  <data name="AudioCall" xml:space="preserve">
+    <value>Звонок</value>
+  </data>
+  <data name="AudioAlarm" xml:space="preserve">
+    <value>Будильник</value>
+  </data>
+  <data name="AdbSettingsDescription" xml:space="preserve">
+    <value>Настройка подключения ADB</value>
+  </data>
+  <data name="ScreenMirrorSettingsDescription" xml:space="preserve">
+    <value>Настройка флагов scrcpy и параметров зеркального отображения экрана</value>
+  </data>
+  <data name="MediaSessionDescription" xml:space="preserve">
+    <value>Синхронизировать информацию о воспроизведении мультимедиа с этим устройством</value>
+  </data>
+  <data name="AudioControl" xml:space="preserve">
+    <value>Управление аудио</value>
+  </data>
+  <data name="MediaSession" xml:space="preserve">
+    <value>Сеанс воспроизведения медиа</value>
+  </data>
+  <data name="AudioControlDescription" xml:space="preserve">
+    <value>Разрешить управление аудио с помощью этого устройства</value>
+  </data>
+  <data name="ClipboardIncludeImagesDescription" xml:space="preserve">
+    <value>Включить синхронизацию изображений через буфер обмена</value>
+  </data>
+  <data name="ClipboardIncludeImages" xml:space="preserve">
+    <value>Включать изображения в буфер мониторинга</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="LanguageDescription" xml:space="preserve">
+    <value>Выберите язык отображения</value>
+  </data>
+  <data name="UseSystemSetting" xml:space="preserve">
+    <value>Как в системе</value>
+  </data>
+  <data name="ScrcpyLocation" xml:space="preserve">
+    <value>Местоположение Scrcpy</value>
+  </data>
+  <data name="AdbLocation" xml:space="preserve">
+    <value>Местоположение Adb</value>
+  </data>
+  <data name="CallMissed" xml:space="preserve">
+    <value>Missed call</value>
+  </data>
+  <data name="UpdateNotification.Title" xml:space="preserve">
+    <value>Update available</value>
+  </data>
+  <data name="UpdateNotification.Action" xml:space="preserve">
+    <value>Download update</value>
+  </data>
+  <data name="UpdateNotification.Subtitle" xml:space="preserve">
+    <value>A new version is available</value>
+  </data>
+  <data name="ClipboardNotification.Title" xml:space="preserve">
+    <value>Clipboard received</value>
+  </data>
+  <data name="OpenInBrowser" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="PhoneFrameScrollTip" xml:space="preserve">
+    <value>Scroll on the phone preview to change the active device</value>
+  </data>
+  <data name="AddAppShortcut" xml:space="preserve">
+    <value>Add shortcut</value>
+  </data>
+  <data name="RemoveAppShortcut" xml:space="preserve">
+    <value>Remove shortcut</value>
+  </data>
+  <data name="DeviceAudio" xml:space="preserve">
+    <value>Device audio</value>
+  </data>
+  <data name="DndToggle" xml:space="preserve">
+    <value>Toggle Do not disturb</value>
+  </data>
+  <data name="StartScreenMirroring" xml:space="preserve">
+    <value>Start screen mirroring</value>
+  </data>
+  <data name="PreviousTrack" xml:space="preserve">
+    <value>Previous track</value>
+  </data>
+  <data name="PlayOrPause" xml:space="preserve">
+    <value>Play or pause</value>
+  </data>
+  <data name="NextTrack" xml:space="preserve">
+    <value>Next track</value>
+  </data>
+  <data name="MediaVolume" xml:space="preserve">
+    <value>Media volume</value>
+  </data>
+  <data name="SendNotificationReply" xml:space="preserve">
+    <value>Send notification reply</value>
+  </data>
+  <data name="RefreshApps" xml:space="preserve">
+    <value>Refresh apps</value>
+  </data>
+  <data name="ContextMenu" xml:space="preserve">
+    <value>Context menu</value>
+  </data>
+  <data name="ShareFiles" xml:space="preserve">
+    <value>Share files</value>
+  </data>
+  <data name="ReceiveClipboard" xml:space="preserve">
+    <value>Receive clipboard</value>
+  </data>
+  <data name="SendClipboard" xml:space="preserve">
+    <value>Send clipboard</value>
+  </data>
+  <data name="ReceiveMediaSessions" xml:space="preserve">
+    <value>Receive media sessions</value>
+  </data>
+  <data name="SendMediaSessions" xml:space="preserve">
+    <value>Send media sessions</value>
+  </data>
+  <data name="SecondaryCallOnHold" xml:space="preserve">
+    <value>On hold. Select to resume</value>
+  </data>
+  <data name="CallLogDisabled.Description" xml:space="preserve">
+    <value>Enable call log sync for this device on the phone.</value>
+  </data>
+  <data name="BluetoothCallingUnsupported" xml:space="preserve">
+    <value>Bluetooth calling is not supported</value>
+  </data>
+  <data name="BluetoothCallingUnavailable.Description" xml:space="preserve">
+    <value>Connect or enable a Bluetooth adapter on your PC to continue.</value>
+  </data>
+  <data name="BluetoothDisabled.Description" xml:space="preserve">
+    <value>Enable Bluetooth to continue.</value>
+  </data>
+  <data name="BluetoothPairing.Title" xml:space="preserve">
+    <value>Pair mobile device and PC</value>
+  </data>
+  <data name="BluetoothPairing.Description" xml:space="preserve">
+    <value>Make sure your device is nearby and has Bluetooth turned on.</value>
+  </data>
+  <data name="BluetoothPairingAction" xml:space="preserve">
+    <value>Pair device</value>
+  </data>
+  <data name="BluetoothRegistrationFailed.Description" xml:space="preserve">
+    <value>Unpair the device from other apps and try again.</value>
+  </data>
+  <data name="TryAgain" xml:space="preserve">
+    <value>Try again</value>
+  </data>
+  <data name="SearchContacts" xml:space="preserve">
+    <value>Search contacts</value>
+  </data>
+  <data name="BluetoothRegistrationFailed.Title" xml:space="preserve">
+    <value>Registration failed</value>
+  </data>
+  <data name="BluetoothCallingUnavailable.Title" xml:space="preserve">
+    <value>Bluetooth calling is not available</value>
+  </data>
+  <data name="BluetoothDisabled.Title" xml:space="preserve">
+    <value>Bluetooth is turned off</value>
+  </data>
+  <data name="Calls" xml:space="preserve">
+    <value>Calls</value>
+  </data>
+  <data name="Unmute" xml:space="preserve">
+    <value>Unmute</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Resume</value>
+  </data>
+  <data name="Mute" xml:space="preserve">
+    <value>Mute</value>
+  </data>
+  <data name="Hold" xml:space="preserve">
+    <value>Hold</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="CallOnHold" xml:space="preserve">
+    <value>On hold</value>
+  </data>
+  <data name="CallIncoming" xml:space="preserve">
+    <value>Incoming call</value>
+  </data>
+  <data name="CallDialing" xml:space="preserve">
+    <value>Dialing</value>
+  </data>
+  <data name="CallConnecting" xml:space="preserve">
+    <value>Connecting</value>
+  </data>
+  <data name="CallAudioRouteToPhone" xml:space="preserve">
+    <value>Transfer to phone</value>
+  </data>
+  <data name="CallAudioRouteToPc" xml:space="preserve">
+    <value>Transfer to PC</value>
+  </data>
+</root>

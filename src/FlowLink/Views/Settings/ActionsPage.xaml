@@ -1,0 +1,118 @@
+﻿<Page
+    x:Class="FlowLink.Views.Settings.ActionsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contracts="using:FlowLink.Data.Contracts"
+    xmlns:converters="using:FlowLink.Converters"
+    xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:FlowLink.Helpers"
+    xmlns:items="using:FlowLink.Data.Items"
+    xmlns:local="using:FlowLink.Views.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models_actions="using:FlowLink.Data.Models.Actions"
+    xmlns:vm="using:FlowLink.ViewModels.Settings"
+    xmlns:wuc="using:CommunityToolkit.WinUI.Controls"
+    x:Name="PageRoot"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <x:Double x:Key="BreadcrumbBarChevronFontSize">17</x:Double>
+        <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+        <converters:CountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" Inverse="True" />
+    </Page.Resources>
+
+    <Page.DataContext>
+        <vm:ActionsViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <ScrollViewer Padding="0,0,40,0">
+        <StackPanel Spacing="4">
+            <!--  Breadcrumb Navigation with Button  -->
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <BreadcrumbBar x:Name="BreadcrumbBar" Grid.Column="0">
+                    <BreadcrumbBar.ItemTemplate>
+                        <DataTemplate x:DataType="items:BreadcrumbBarItemModel">
+                            <BreadcrumbBarItem AutomationProperties.Name="{Binding Name}" Content="{Binding}">
+                                <BreadcrumbBarItem.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            FontSize="28"
+                                            FontWeight="SemiBold"
+                                            Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </BreadcrumbBarItem.ContentTemplate>
+                            </BreadcrumbBarItem>
+                        </DataTemplate>
+                    </BreadcrumbBar.ItemTemplate>
+                </BreadcrumbBar>
+                <Button
+                    Grid.Column="1"
+                    Command="{x:Bind ViewModel.AddActionCommand}"
+                    Style="{ThemeResource AccentButtonStyle}">
+                    <TextBlock Text="{helpers:ResourceString Name=AddAction}" />
+                </Button>
+            </Grid>
+
+            <!--  Actions List  -->
+            <ListView
+                AllowDrop="True"
+                CanReorderItems="True"
+                ItemsSource="{x:Bind ViewModel.Actions, Mode=OneWay}"
+                SelectionMode="None">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <ListViewItemPresenter
+                                        Padding="0"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        ContentMargin="0" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models_actions:BaseAction">
+                        <wuc:SettingsCard HorizontalAlignment="Stretch" Header="{x:Bind Name}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button
+                                    Command="{Binding DataContext.EditActionCommand, ElementName=PageRoot}"
+                                    CommandParameter="{x:Bind}"
+                                    Content="{helpers:ResourceString Name=Edit}" />
+                                <Button
+                                    Command="{Binding DataContext.RemoveActionCommand, ElementName=PageRoot}"
+                                    CommandParameter="{x:Bind}"
+                                    Content="{helpers:ResourceString Name=Remove}" />
+                            </StackPanel>
+                        </wuc:SettingsCard>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!--  Empty State  -->
+            <StackPanel
+                Margin="0,32"
+                HorizontalAlignment="Center"
+                Spacing="8"
+                Visibility="{x:Bind ViewModel.Actions.Count, Mode=OneWay, Converter={StaticResource InverseCountToVisibilityConverter}}">
+                <FontIcon
+                    FontSize="32"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Glyph="&#xE8F7;" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="14"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Text="{helpers:ResourceString Name=NoActionsConfigured}" />
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

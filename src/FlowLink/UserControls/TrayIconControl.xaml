@@ -1,0 +1,53 @@
+<UserControl
+    x:Class="FlowLink.UserControls.TrayIconControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:FlowLink.Helpers"
+    xmlns:local="using:FlowLink.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tb="using:H.NotifyIcon"
+    mc:Ignorable="d">
+
+    <tb:TaskbarIcon
+        x:Name="TrayIcon"
+        x:FieldModifier="public"
+        IconSource="ms-appx:///Assets/Icons/FlowLinkDark.ico"
+        ContextMenuMode="SecondWindow"
+        LeftClickCommand="{x:Bind OpenWindowCommand}"
+        NoLeftClickDelay="True"
+        ToolTipText="{x:Bind ConnectionStatusText, Mode=OneWay}">
+        <tb:TaskbarIcon.ContextFlyout>
+            <MenuFlyout AreOpenCloseAnimationsEnabled="True">
+
+                <!-- Open FlowLink -->
+                <MenuFlyoutItem
+                    Command="{x:Bind OpenWindowCommand}"
+                    Text="{helpers:ResourceString Name=OpenFlowLink}" />
+
+                <MenuFlyoutSeparator />
+
+                <!-- Connection Status (informational, disabled) -->
+                <MenuFlyoutItem
+                    x:Name="StatusMenuItem"
+                    Text="{x:Bind ConnectionStatusText, Mode=OneWay}"
+                    IsEnabled="False" />
+
+                <MenuFlyoutSeparator />
+
+                <!-- Restart Connection -->
+                <MenuFlyoutItem
+                    Command="{x:Bind RestartConnectionCommand}"
+                    Text="{helpers:ResourceString Name=RestartConnection}" />
+
+                <MenuFlyoutSeparator />
+
+                <!-- Exit -->
+                <MenuFlyoutItem
+                    Command="{x:Bind ExitApplicationCommand}"
+                    Text="{helpers:ResourceString Name=Exit}" />
+
+            </MenuFlyout>
+        </tb:TaskbarIcon.ContextFlyout>
+    </tb:TaskbarIcon>
+</UserControl>

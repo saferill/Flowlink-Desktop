@@ -1,0 +1,49 @@
+using System.Text;
+using FlowLink.Services.Socket;
+using FlowLink.Utils.Serialization;
+
+namespace FlowLink.Data.Models;
+
+public abstract partial class BaseRemoteDevice : ObservableObject
+{
+    private string id = string.Empty;
+    public string Id
+    {
+        get => id;
+        set => SetProperty(ref id, value);
+    }
+
+    private string name = string.Empty;
+    public string Name
+    {
+        get => name;
+        set => SetProperty(ref name, value);
+    }
+
+    private string model = string.Empty;
+    public string Model
+    {
+        get => model;
+        set => SetProperty(ref model, value);
+    }
+
+    public byte[] Certificate { get; set; } = null!;
+
+    public string Address { get; set; } = string.Empty;
+
+    public ServerSession? Session { get; set; }
+
+    public Client? Client { get; set; }
+
+    public virtual void SendMessage(SocketMessage message)
+    {
+        try
+        {
+            var stringMessage = JsonMessageSerializer.Serialize(message);
+            var messageBytes = Encoding.UTF8.GetBytes(stringMessage + "\n");
+            Session?.SendAsync(messageBytes);
+            Client?.SendAsync(messageBytes);
+        }
+        catch { }
+    }
+}

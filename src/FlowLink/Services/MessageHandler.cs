@@ -1,0 +1,122 @@
+using CommunityToolkit.WinUI;
+using FlowLink.Data.AppDatabase.Repository;
+using FlowLink.Data.Models;
+
+namespace FlowLink.Services;
+public class MessageHandler(
+    RemoteAppRepository remoteAppRepository,
+    CallLogRepository callLogRepository,
+    ContactRepository contactRepository,
+    IDeviceManager deviceManager,
+    INotificationService notificationService,
+    IBatteryAlertService batteryAlertService,
+    IClipboardService clipboardService,
+    SmsHandlerService smsHandlerService,
+    IFileTransferService fileTransferService,
+    IMediaService playbackService,
+    IRemoteMediaHandler remotePlaybackService,
+    IActionService actionService,
+    ISftpService sftpService,
+    ISessionManager sessionManager,
+    ICallHandler callHandler,
+    IBluetoothPairingService bluetoothPairingService,
+    ILogger<MessageHandler> logger) : IMessageHandler
+{
+    public async void HandleMessageAsync(PairedDevice device, SocketMessage message)
+    {
+        try
+        {
+            switch (message)
+            {
+                case ApplicationList applicationList:
+                    await remoteAppRepository.UpdateApplicationList(device, applicationList);
+                    break;
+
+                case ApplicationInfo applicationInfo:
+                    await remoteAppRepository.AddOrUpdateApplicationForDevice(applicationInfo, device.Id);
+                    break;
+
+                case NotificationInfo notificationMessage:
+                    await notificationService.HandleNotificationMessage(device, notificationMessage);
+                    break;
+
+                case MediaAction action:
+                    await playbackService.HandleMediaActionAsync(action);
+                    break;
+
+                case PlaybackInfo playbackSession:
+                    await remotePlaybackService.HandleRemotePlaybackSessionAsync(device, playbackSession);
+                    break;
+
+                case BatteryState batteryStatus:
+                    await batteryAlertService.HandleBatteryStateAsync(device, batteryStatus);
+                    break;
+
+                case RingerModeState ringerMode:
+                    await App.MainWindow.DispatcherQueue.EnqueueAsync(() => device.RingerMode = ringerMode.Mode);
+                    break;
+
+                case DndState dndStatus:
+                    await App.MainWindow.DispatcherQueue.EnqueueAsync(() => device.DndEnabled = dndStatus.IsEnabled);
+                    break;
+
+                case AudioStreamState audioStream:
+                    await App.MainWindow.DispatcherQueue.EnqueueAsync(() =>
+                        device.UpdateStreamLevel(audioStream.StreamType, audioStream.Level));
+                    break;
+
+                case ClipboardInfo clipboard:
+                    await clipboardService.SetContentAsync(clipboard.Content, device);
+                    break;
+
+                case ConversationInfo textConversation:
+                    await smsHandlerService.HandleTextMessage(device.Id, textConversation);
+                    break;
+
+                case ContactInfo contactMessage:
+                    await contactRepository.SaveContactAsync(device.Id, contactMessage);
+                    break;
+
+                case ActionInfo action:
+                    actionService.HandleActionMessage(action);
+                    break;
+
+                case SftpServerInfo sftpServerInfo:
+                    await sftpService.InitializeAsync(device, sftpServerInfo);
+                    break;
+
+                case FileTransferInfo fileTransfer:
+                    await fileTransferService.ReceiveFiles(fileTransfer, device);
+                    break;
+
+                case DeviceInfo deviceInfo:
+                    await deviceManager.UpdateDeviceInfo(device, deviceInfo);
+                    break;
+
+                case CallInfo callInfo:
+                    await callHandler.HandleCallInfoAsync(device, callInfo);
+                    break;
+
+                case CallLogInfo callLogInfo:
+                    await callLogRepository.SaveCallLogAsync(device.Id, callLogInfo);
+                    break;
+
+                case BluetoothPairingResult pairingResult:
+                    bluetoothPairingService.HandleBluetoothPairingResult(device, pairingResult);
+                    break;
+
+                case Disconnect:
+                    sessionManager.DisconnectDevice(device, true);
+                    break;
+
+                default:
+                    logger.Warn($"Unknown message type received: {message.GetType().Name}");
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.Error("Error handling message", ex);
+        }
+    }
+}

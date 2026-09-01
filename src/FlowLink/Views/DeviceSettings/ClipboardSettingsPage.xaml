@@ -1,0 +1,55 @@
+﻿<Page
+    x:Class="FlowLink.Views.DeviceSettings.ClipboardSettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:FlowLink.UserControls"
+    xmlns:converters="using:FlowLink.Converters"
+    xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:FlowLink.Helpers"
+    xmlns:local="using:FlowLink.Views.DeviceSettings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wuc="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+    </Page.Resources>
+
+    <ScrollViewer>
+        <StackPanel Margin="20" Spacing="16">
+            <TextBlock
+                FontSize="16"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Text="{helpers:ResourceString Name=ClipboardSettings}" />
+            <StackPanel Spacing="5">
+                <wuc:SettingsCard Description="{helpers:ResourceString Name=OpenLinksInBrowserDescription}" Header="{helpers:ResourceString Name=OpenLinksInBrowser}">
+                    <wuc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE774;" />
+                    </wuc:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.OpenLinksInBrowser, Mode=TwoWay}" />
+                </wuc:SettingsCard>
+
+                <wuc:SettingsCard Description="{helpers:ResourceString Name=ShowClipboardToastDescription}" Header="{helpers:ResourceString Name=ShowClipboardToast}">
+                    <wuc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE7E7;" />
+                    </wuc:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ShowClipboardToast, Mode=TwoWay}" />
+                </wuc:SettingsCard>
+
+                <wuc:SettingsCard Description="{helpers:ResourceString Name=ClipboardFilesDescription}" Header="{helpers:ResourceString Name=ClipboardFiles}">
+                    <wuc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE8B7;" />
+                    </wuc:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ClipboardFiles, Mode=TwoWay}" />
+                </wuc:SettingsCard>
+
+                <wuc:SettingsCard Description="{helpers:ResourceString Name=ClipboardIncludeImagesDescription}" Header="{helpers:ResourceString Name=ClipboardIncludeImages}">
+                    <wuc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xEB9F;" />
+                    </wuc:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ClipboardIncludeImages, Mode=TwoWay}" />
+                </wuc:SettingsCard>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,37 @@
+<Project ToolsVersion="15.0">
+  <!--
+    To update the version of Uno, you should instead update the Sdk version in the global.json file.
+
+    See https://aka.platform.uno/using-uno-sdk for more information.
+    See https://aka.platform.uno/using-uno-sdk#implicit-packages for more information regarding the Implicit Packages.
+  -->
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="AdvancedSharpAdbClient" Version="3.5.15" />
+    <PackageVersion Include="BouncyCastle.Cryptography" Version="2.6.2" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Converters" Version="8.2.251219" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Extensions" Version="8.2.251219" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.251219" />
+    <PackageVersion Include="H.NotifyIcon.Uno.WinUI" Version="2.3.0" />
+    <PackageVersion Include="libphonenumber-csharp" Version="9.0.29" />
+    <PackageVersion Include="MeaMod.DNS" Version="1.0.71" />
+    <PackageVersion Include="NAudio" Version="2.2.1" />
+    <PackageVersion Include="NetCoreServer" Version="8.0.7" />
+    <PackageVersion Include="sqlite-net-pcl" Version="1.9.172" />
+    <PackageVersion Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.11" />
+    <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
+    <PackageVersion Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.11" />
+    <PackageVersion Include="SSH.NET" Version="2025.1.0" />
+    <PackageVersion Include="Tmds.DBus" Version="0.92.0" />
+    <PackageVersion Include="Uno.WinUI.Runtime.Skia.Linux.FrameBuffer" Version="5.6.91" />
+    <PackageVersion Include="Uno.WinUI.Runtime.Skia.X11" Version="5.6.91" />
+    <PackageVersion Include="Vanara.PInvoke.CldApi" Version="5.0.1" />
+    <PackageVersion Include="Vanara.PInvoke.Ole" Version="5.0.1" />
+    <PackageVersion Include="Vanara.PInvoke.Shell32" Version="5.0.1" />
+    <PackageVersion Include="WinUIEx" Version="2.5.1" />
+    <PackageVersion Include="QRCoder" Version="1.7.0" />
+    <PackageVersion Include="Velopack" Version="0.0.1023" />
+  </ItemGroup>
+</Project>

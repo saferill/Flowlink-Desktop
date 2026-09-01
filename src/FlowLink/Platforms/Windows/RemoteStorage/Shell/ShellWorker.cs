@@ -1,0 +1,27 @@
+using FlowLink.Platforms.Windows.Async;
+using FlowLink.Platforms.Windows.Helpers;
+
+namespace FlowLink.Platforms.Windows.RemoteStorage.Shell;
+
+public sealed class ShellWorker(
+    ShellRegistrar shellRegistrar,
+    ILogger logger
+) : BackgroundService
+{
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        try
+        {
+            logger.Info("Starting shell worker");
+
+            // Start up the task that registers and hosts the services for the shell
+            using var disposableShellCookies = new Disposable<IReadOnlyList<uint>>(shellRegistrar.Register(), shellRegistrar.Revoke);
+
+            await stoppingToken;
+        }
+        catch (Exception ex)
+        {
+            logger.Error("Failed to execute shell worker", ex);
+        }
+    }
+}

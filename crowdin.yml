@@ -1,0 +1,3 @@
+files:
+  - source: src/FlowLink/Strings/en/*.resw
+    translation: /src/FlowLink/Strings/%locale%/%original_file_name%

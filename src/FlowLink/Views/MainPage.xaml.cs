@@ -1,0 +1,410 @@
+using System.Collections.Specialized;
+using CommunityToolkit.WinUI.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Animation;
+using FlowLink.Data.Models;
+using FlowLink.Utils;
+using FlowLink.ViewModels;
+using FlowLink.ViewModels.Settings;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
+
+namespace FlowLink.Views;
+
+public sealed partial class MainPage : Page
+{
+    public MainPageViewModel ViewModel { get; }
+    public DevicesViewModel DevicesViewModel { get; }
+    private readonly ISessionManager SessionManager = Ioc.Default.GetRequiredService<ISessionManager>();
+    private readonly IScreenMirrorService screenMirrorService;
+
+    private static bool IsPhoneFrameScrollTeachingTipShown 
+    {
+        get => ApplicationData.Current.LocalSettings.Values[Constants.LocalSettings.PhoneFrameScrollTeachingTipShown] is true;
+        set => ApplicationData.Current.LocalSettings.Values[Constants.LocalSettings.PhoneFrameScrollTeachingTipShown] = value;
+    }
+
+    public MainPage()
+    {
+        InitializeComponent();
+        ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+        DevicesViewModel = Ioc.Default.GetRequiredService<DevicesViewModel>();
+        screenMirrorService = Ioc.Default.GetRequiredService<IScreenMirrorService>();
+        ViewModel.PairedDevices.CollectionChanged += OnPairedDevicesCollectionChanged;
+        screenMirrorService.OnScrcpyWindowFound += OnScrcpyWindowFound;
+        Unloaded += MainPage_Unloaded;
+    }
+
+    private void MainPage_Unloaded(object sender, RoutedEventArgs e)
+    {
+        ViewModel.PairedDevices.CollectionChanged -= OnPairedDevicesCollectionChanged;
+        screenMirrorService.OnScrcpyWindowFound -= OnScrcpyWindowFound;
+        MainNavigationView.Loaded -= MainNavigationView_Loaded;
+    }
+
+    private void OnScrcpyWindowFound(IntPtr hwnd)
+    {
+        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            if (MainNavigationView.SelectedItem != ScreenMirroringNavigationItem)
+            {
+                MainNavigationView.SelectedItem = ScreenMirroringNavigationItem;
+            }
+        });
+    }
+
+    private void PhoneFrameOverlay_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    {
+        MainNavigationView.SelectedItem = ScreenMirroringNavigationItem;
+    }
+
+    private void MainNavigationView_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.Device is null)
+        {
+            MainNavigationView.SelectedItem = MainNavigationView.SettingsItem;
+            return;
+        }
+
+        if (ApplicationData.Current.LocalSettings.Values[Constants.LocalSettings.MainNavigationSelection] is not string lastActivePage ||
+            !Pages.ContainsKey(lastActivePage))
+        {
+            MainNavigationView.SelectedItem = MainNavigationView.SettingsItem;
+            return;
+        }
+
+        MainNavigationView.SelectedItem = lastActivePage switch
+        {
+            "Settings" => MainNavigationView.SettingsItem,
+            "Calls" => CallsNavigationItem,
+            "Messages" => MessagesNavigationItem,
+            "Apps" => AppsNavigationItem,
+            "ScreenMirroring" => ScreenMirroringNavigationItem,
+            _ => MainNavigationView.SettingsItem,
+        };
+    }
+
+    private void OnPairedDevicesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => TryShowPhoneFrameScrollTeachingTip();
+
+    private void TryShowPhoneFrameScrollTeachingTip()
+    {
+        if (IsPhoneFrameScrollTeachingTipShown) return;
+
+        if (ViewModel.PairedDevices.Count <= 1) return;
+
+        if (PhoneFrameScrollTeachingTip.IsOpen) return;
+
+        PhoneFrameScrollTeachingTip.IsOpen = true;
+    }
+
+    private void PhoneFrameScrollTeachingTip_Closed(object? _, TeachingTipClosedEventArgs args)
+    {
+        IsPhoneFrameScrollTeachingTipShown = true;
+    }
+
+    private readonly Dictionary<string, Type> Pages = new()
+    {
+        { "Settings", typeof(SettingsPage) },
+        { "Calls", typeof(CallsPage) },
+        { "Messages", typeof(MessagesPage) },
+        { "Apps", typeof(AppsPage) },
+        { "ScreenMirroring", typeof(ScreenMirrorPage) }
+    };
+
+    // Track the current animation to prevent conflicts
+    private Storyboard? currentOverlayAnimation;
+
+    // Handle mouse wheel events on the phone frame
+    private void PhoneFrame_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+    {
+        // Get the wheel delta - positive for scrolling up, negative for scrolling down
+        var pointerPoint = e.GetCurrentPoint(PhoneFrameGrid);
+        int wheelDelta = pointerPoint.Properties.MouseWheelDelta;        
+        ViewModel.SwitchToNextDevice(wheelDelta);
+        e.Handled = true;
+    }
+
+    private void NavigationView_SelectionChanged(NavigationView _, NavigationViewSelectionChangedEventArgs args)
+    {
+        if (args.SelectedItem is NavigationViewItem selectedItem &&
+            selectedItem.Tag?.ToString() is string tag &&
+            Pages.TryGetValue(tag, out Type? pageType))
+        {
+            ApplicationData.Current.LocalSettings.Values[Constants.LocalSettings.MainNavigationSelection] = tag;
+            ContentFrame.Navigate(pageType);
+        }
+    }
+
+    private void OnPointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        if (sender is Border border &&
+            border.FindName("PinIcon") is SymbolIcon pinIcon &&
+            border.FindName("CloseButton") is Button closeButton &&
+            border.FindName("MoreButton") is Button moreButton &&
+            border.FindName("TimeStampTextBlock") is TextBlock timeStamp)
+        {
+            timeStamp.Visibility = Visibility.Collapsed;
+
+            // Only make pinIcon visible if it's not already visible
+            if (pinIcon.Tag is bool isPinned && isPinned)
+            {
+                pinIcon.Visibility = Visibility.Collapsed;
+            }
+
+            pinIcon.IsHitTestVisible = true;
+            closeButton.Opacity = 1;
+            moreButton.Opacity = 1;
+
+            // Hover shadow / elevation
+            border.Shadow = new ThemeShadow();
+            border.Translation = new System.Numerics.Vector3(0, 0, 12);
+        }
+    }
+
+    private void OnPointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        // Check if MoreButton or its Flyout is open
+        if (sender is Border border &&
+            border.FindName("PinIcon") is SymbolIcon pinIcon &&
+            border.FindName("CloseButton") is Button closeButton &&
+            border.FindName("MoreButton") is Button moreButton &&
+            border.FindName("TimeStampTextBlock") is TextBlock timeStamp)
+        {
+            // If the flyout is open, don't hide the buttons
+            if (moreButton.Flyout is MenuFlyout flyout && flyout.IsOpen) return;
+
+            timeStamp.Visibility = Visibility.Visible;
+
+            if (pinIcon.Tag is bool isPinned && isPinned)
+            {
+                pinIcon.Visibility = Visibility.Visible;
+            }
+
+            pinIcon.IsHitTestVisible = false;
+            closeButton.Opacity = 0;
+            moreButton.Opacity = 0;
+
+            // Remove hover shadow / elevation
+            border.Shadow = null;
+            border.Translation = new System.Numerics.Vector3(0, 0, 0);
+        }
+    }
+
+    private void MoreButtonFlyoutClosed(object sender, object e)
+    {
+        // The sender is the Flyout itself, so first get its parent button
+        if (sender is MenuFlyout flyout && flyout.Target is Button moreButton && 
+                VisualTreeHelper.GetParent(moreButton) is FrameworkElement parent &&
+                parent.FindName("PinIcon") is SymbolIcon pinIcon &&
+                parent.FindName("CloseButton") is Button closeButton &&
+                parent.FindName("TimeStampTextBlock") is TextBlock timeStamp)
+        {
+            if (pinIcon.Tag is bool isPinned && isPinned)
+            {
+                pinIcon.Visibility = Visibility.Visible;
+            }
+
+            closeButton.Opacity = 0;
+            moreButton.Opacity = 0;
+            timeStamp.Visibility = Visibility.Visible;
+        }
+    }
+
+    private async void OpenAppClick(object sender, RoutedEventArgs e)
+    {   
+        if (sender is MenuFlyoutItem menuItem && menuItem.DataContext is Notification notification)
+        {
+            await ViewModel.OpenApp(notification);
+        }
+    }
+
+    private void UpdateNotificationFilterClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuFlyoutItem menuItem && menuItem.Tag is string appPackage)
+        {
+            ViewModel.UpdateNotificationFilter(appPackage);
+        }
+    }
+
+    private void ToggleNotificationPinClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuFlyoutItem menuItem && menuItem.DataContext is Notification notification)
+        {
+            ViewModel.ToggleNotificationPin(notification);
+        }
+    }
+
+    private void SendButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button button &&
+            button.Tag is Notification notification &&
+            (button.Parent as FrameworkElement)?.FindName("ReplyTextBox") is TextBox replyTextBox)
+        {
+            string replyText = replyTextBox.Text;
+            // Clear the textbox after getting the text
+            replyTextBox.Text = string.Empty;
+
+            ViewModel.HandleNotificationReply(notification, replyText);
+        }
+    }
+
+    private void ReplyTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+    {
+        if (sender is TextBox textBox &&
+            e.Key is VirtualKey.Enter &&
+            textBox.Tag is Notification message)
+        {
+            ViewModel.HandleNotificationReply(message, textBox.Text);
+            textBox.Text = string.Empty;
+        }
+    }
+
+    private void PhoneFrame_PointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        AnimateOverlay(PhoneFrameOverlay, true);
+    }
+
+    private void PhoneFrame_PointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        AnimateOverlay(PhoneFrameOverlay, false);
+    }
+
+    private void AnimateOverlay(UIElement overlay, bool show)
+    {
+        // Cancel any existing animation to prevent conflicts
+        currentOverlayAnimation?.Stop();
+        currentOverlayAnimation = null;
+
+        if (show)
+        {
+            overlay.Visibility = Visibility.Visible;
+            currentOverlayAnimation = FadeInStoryboard;
+            FadeInStoryboard.Begin();
+        }
+        else
+        {
+            currentOverlayAnimation = FadeOutStoryboard;
+            FadeOutStoryboard.Begin();
+            
+            // Hide overlay after animation completes
+            FadeOutStoryboard.Completed += (s, args) => 
+            {
+                overlay.Visibility = Visibility.Collapsed;
+                currentOverlayAnimation = null;
+            };
+        }
+    }
+
+    private void DiscoveredDeviceButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button button && button.Tag is DiscoveredDevice device)
+        {
+            SessionManager.Pair(device);
+        }
+    }
+
+    private async void Page_Drop(object sender, DragEventArgs e)
+    {
+        DragDropOverlay.Visibility = Visibility.Collapsed;
+        // Check if the dropped data contains files
+        if (e.DataView.Contains(StandardDataFormats.StorageItems))
+        {
+            ViewModel.SendFiles(await e.DataView.GetStorageItemsAsync());
+        }
+    }
+
+    private void Grid_DragEnter(object sender, DragEventArgs e)
+    {
+        if (ViewModel.PairedDevices.Count == 0) return;
+        DragDropOverlay.Visibility = Visibility.Visible;
+    }
+
+    private void Grid_DragLeave(object sender, DragEventArgs e)
+    {
+        DragDropOverlay.Visibility = Visibility.Collapsed;
+    }
+
+    private void Grid_DragOver(object sender, DragEventArgs e)
+    {
+        if (ViewModel.PairedDevices.Count == 0) return;
+
+        e.AcceptedOperation = DataPackageOperation.Copy;
+        e.DragUIOverride.Caption = "FileDropCaption".GetLocalizedResource();
+    }
+
+    private async void SendFilesButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.Device is null) return;
+
+        var files = await PickerHelper.PickMultipleFilesAsync();
+        if (files.Count > 0)
+        {
+            ViewModel.SendFiles(files);
+        }
+    }
+
+    private void RingerModeSegmented_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is Segmented segmented)
+        {
+            ViewModel.SetRingerMode(segmented.SelectedIndex);
+        }
+    }
+
+    private void AudioSlider_PointerCaptureLost(object sender, PointerRoutedEventArgs e)
+    {
+        if (sender is Slider slider && slider.Tag is AudioStream stream)
+        {
+            ViewModel.SetAudioLevel(stream.StreamType, (int)slider.Value);
+        }
+    }
+
+    private void PreviousButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button button && button.DataContext is MediaSession session)
+        {
+            ViewModel.HandlePlaybackAction(session, MediaActionType.Previous);
+        }
+    }
+
+    private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button button && button.DataContext is MediaSession session)
+        {
+            var actionType = session.IsPlaying ? MediaActionType.Pause : MediaActionType.Play;
+            ViewModel.HandlePlaybackAction(session, actionType);
+        }
+    }
+
+    private void NextButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button button && button.DataContext is MediaSession session)
+        {
+            ViewModel.HandlePlaybackAction(session, MediaActionType.Next);
+        }
+    }
+
+    private void MediaPositionSlider_PointerCaptureLost(object sender, PointerRoutedEventArgs e)
+    {
+        if (sender is Slider slider && slider.DataContext is MediaSession session && session.CanSeek == true)
+        {
+            ViewModel.HandlePlaybackAction(session, MediaActionType.Seek, slider.Value);
+        }
+    }
+
+    private void VolumeButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button button && button.Tag is MediaSession session)
+        {
+            session.IsVolumeSliderVisible = !session.IsVolumeSliderVisible;
+        }
+    }
+
+    private void MediaVolumeSlider_PointerCaptureLost(object sender, PointerRoutedEventArgs e)
+    {
+        if (sender is Slider slider && slider.Tag is MediaSession session)
+        {
+            ViewModel.HandlePlaybackAction(session, MediaActionType.VolumeUpdate, slider.Value);
+        }
+    }
+}

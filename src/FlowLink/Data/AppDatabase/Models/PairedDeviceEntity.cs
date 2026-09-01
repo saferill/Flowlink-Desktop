@@ -1,0 +1,67 @@
+using FlowLink.Data.Models;
+using FlowLink.Data.Models.Messages;
+using FlowLink.Helpers;
+using SQLite;
+
+namespace FlowLink.Data.AppDatabase.Models;
+
+public class PairedDeviceEntity
+{
+    [PrimaryKey]
+    public string DeviceId { get; set; } = string.Empty;
+
+    public string Name { get; set; } = string.Empty;
+
+    public string Model { get; set; } = string.Empty;
+
+    public byte[] Certificate { get; set; } = [];
+
+    public byte[]? WallpaperBytes { get; set; }
+
+    public DateTime? LastConnected { get; set; }
+
+    [Column("Addresses")]
+    public string? AddressesJson { get; set; }
+    
+    [Ignore]
+    public List<AddressEntry> Addresses
+    {
+        get => string.IsNullOrEmpty(AddressesJson) ? [] : JsonSerializer.Deserialize<List<AddressEntry>>(AddressesJson) ?? [];
+
+        set => AddressesJson = value is null ? null : JsonSerializer.Serialize(value);
+    }
+
+    public string? CallsTransportDeviceId { get; set; }
+
+    public string? BluetoothAddress { get; set; }
+
+    public string? BluetoothClassicDeviceId { get; set; }
+
+    [Column("PhoneNumbers")]
+    public string? PhoneNumbersJson { get; set; }
+
+    [Ignore]
+    public List<PhoneNumber> PhoneNumbers
+    {
+        get => string.IsNullOrEmpty(PhoneNumbersJson) ? [] : JsonSerializer.Deserialize<List<PhoneNumber>>(PhoneNumbersJson) ?? [];
+        set => PhoneNumbersJson = value is null ? null : JsonSerializer.Serialize(value);
+    }
+
+    #region Helpers
+    internal async Task<PairedDevice> ToPairedDevice()
+    {
+        return new PairedDevice(DeviceId)
+        {
+            Name = Name,
+            Model = Model,
+            Certificate = Certificate,
+            Addresses = Addresses,
+            PhoneNumbers = PhoneNumbers,
+            Wallpaper = await ImageHelper.ToBitmapAsync(WallpaperBytes),
+            CallsTransportDeviceId = CallsTransportDeviceId,
+            BluetoothAddress = BluetoothAddress,
+            BluetoothClassicDeviceId = BluetoothClassicDeviceId,
+        };
+    }
+    #endregion
+}

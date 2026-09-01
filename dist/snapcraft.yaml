@@ -1,0 +1,51 @@
+name: FlowLink
+base: core24
+version: '1.0'
+summary: FlowLink powered by Uno Platform
+description: |
+  FlowLink is a cross-platform application built with Uno Platform,
+  providing seamless functionality across different operating systems.
+
+grade: devel
+confinement: classic
+
+platforms:
+  amd64:
+
+apps:
+  FlowLink:
+    command: FlowLink
+    environment:
+      DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
+
+parts:
+  FlowLink:
+    plugin: dump
+    source: bin/Release/net9.0-desktop/linux-x64/
+    stage-packages:
+      - libgtk-3-0
+      - libglib2.0-0
+      - libgdk-pixbuf2.0-0
+      - libcairo2
+      - libpango-1.0-0
+      - libatk1.0-0
+      - libfontconfig1
+      - libfreetype6
+      - libx11-6
+      - libxext6
+      - libxrender1
+      - libxrandr2
+      - libxi6
+      - libxcursor1
+      - libxcomposite1
+      - libxdamage1
+      - libxfixes3
+      - libxss1
+      - libxtst6
+      - libasound2
+      - libpulse0
+      - libgl1-mesa-glx
+    organize:
+      '*': opt/FlowLink/
+    stage:
+      - opt/FlowLink/ 

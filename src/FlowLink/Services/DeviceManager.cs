@@ -1,0 +1,155 @@
+using CommunityToolkit.WinUI;
+using FlowLink.Data.AppDatabase.Models;
+using FlowLink.Data.AppDatabase.Repository;
+using FlowLink.Data.Models;
+using FlowLink.Data.Models.Messages;
+using FlowLink.Helpers;
+using FlowLink.Utils;
+
+namespace FlowLink.Services;
+
+public partial class DeviceManager(
+    ILogger<DeviceManager> logger,
+    DeviceRepository repository,
+    ContactRepository contactRepository) : ObservableObject, IDeviceManager
+{
+    public ObservableCollection<PairedDevice> PairedDevices { get; set; } = [];
+    public ObservableCollection<DiscoveredDevice> DiscoveredDevices { get; } = [];
+
+    [ObservableProperty]
+    public partial PairedDevice? ActiveDevice { get; set; }
+
+    public event EventHandler<PairedDevice?>? ActiveDeviceChanged;
+
+    partial void OnActiveDeviceChanged(PairedDevice? value) => ActiveDeviceChanged?.Invoke(this, value);
+
+    /// <summary>
+    /// Finds a device session by device ID
+    /// </summary>
+    public PairedDevice? FindDeviceById(string deviceId) => PairedDevices.FirstOrDefault(device => device.Id == deviceId);
+    
+    public async Task<PairedDeviceEntity> GetPairedDevice(string deviceId)
+    {
+        return await repository.GetPairedDevice(deviceId) ?? throw new InvalidOperationException($"Device with ID {deviceId} not found"); ;
+    }   
+
+    public List<string> GetRemoteDeviceAddresses()
+    {
+        return repository.GetRemoteDeviceAddresses();
+    }
+
+    public async Task RemoveDevice(PairedDevice device)
+    {
+        var result = repository.DeletePairedDevice(device.Id);
+        if (!result) throw new Exception($"Failed to remove device {device.Id}");
+
+        await App.MainWindow.DispatcherQueue.EnqueueAsync(() =>
+        {
+            if (PairedDevices.Remove(device) && ActiveDevice == device)
+            {
+                ActiveDevice = PairedDevices.FirstOrDefault();
+            }
+        });
+    }
+
+    public Task UpdateDevice(PairedDeviceEntity device)
+    {
+        throw new NotImplementedException();
+    }
+
+    private static PairedDeviceEntity CreateDeviceEntity(DiscoveredDevice device)
+    {
+        return new PairedDeviceEntity
+        {
+            DeviceId = device.Id,
+            Name = device.Name,
+            LastConnected = DateTime.Now,
+            Model = device.Model,
+            Certificate = device.Certificate,
+            WallpaperBytes = null,
+            Addresses = [new AddressEntry { Address = device.Address, IsEnabled = true, Priority = 0 }],
+            PhoneNumbers = []
+        };
+    }
+
+
+    public async Task<LocalDeviceEntity> GetLocalDeviceAsync()
+    {
+        try
+        {
+            var localDevice =  repository.GetLocalDevice();
+            if (localDevice is null)
+            {
+                var name = await UserInformation.GetCurrentUserNameAsync();
+                localDevice = new LocalDeviceEntity
+                {
+                    DeviceId = Guid.NewGuid().ToString(),
+                    DeviceName = name,
+                };
+
+                repository.AddOrUpdateLocalDevice(localDevice);
+            }
+            return localDevice;
+        }
+        catch (Exception e)
+        {
+            logger.Error("Error getting local device", e);
+            throw;
+        }
+    }
+
+    public void UpdateLocalDevice(LocalDeviceEntity device)
+    {
+        try
+        {
+            repository.AddOrUpdateLocalDevice(device);
+        }
+        catch (Exception ex)
+        {
+            logger.Error("Error updating local device", ex);
+        }
+    }
+
+    public async Task Initialize()
+    {
+        var pairedDevicesList = await repository.GetPairedDevices();
+        PairedDevices = pairedDevicesList.ToObservableCollection();
+        ActiveDevice = PairedDevices.FirstOrDefault();
+        await contactRepository.LoadContacts();
+    }
+
+    public async Task UpdateDeviceInfo(PairedDevice device, DeviceInfo deviceInfo)
+    {
+        var existingDevice = await repository.GetPairedDevice(device.Id);
+        existingDevice.Name = deviceInfo.DeviceName;
+        existingDevice.PhoneNumbers = deviceInfo.PhoneNumbers;
+        if (!string.IsNullOrEmpty(deviceInfo.Avatar))
+        {
+            existingDevice.WallpaperBytes = Convert.FromBase64String(deviceInfo.Avatar);
+        }
+
+        await App.MainWindow.DispatcherQueue.EnqueueAsync(async () =>
+        {
+            device.Name = deviceInfo.DeviceName;
+            device.PhoneNumbers = deviceInfo.PhoneNumbers;
+            device.Wallpaper = await existingDevice.WallpaperBytes.ToBitmapAsync();
+        });
+
+        repository.AddOrUpdateRemoteDevice(existingDevice);
+        
+    }
+
+    public async Task<PairedDevice> AddDevice(DiscoveredDevice device)
+    {
+        var deviceEntity = CreateDeviceEntity(device);
+        repository.AddOrUpdateRemoteDevice(deviceEntity);
+        return await App.MainWindow.DispatcherQueue.EnqueueAsync(async () =>
+        {
+            var pairedDevice = device.ToPairedDevice();
+            PairedDevices.Add(pairedDevice);
+            ActiveDevice = pairedDevice;
+            DiscoveredDevices.Remove(device);
+            return pairedDevice;
+        });
+    }
+}

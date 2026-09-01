@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=FlowLink
+Comment=Seamless Device Linking
+Exec=FlowLink
+Icon=com.castle.FlowLink
+Terminal=false
+Type=Application
+Categories=Utility;
