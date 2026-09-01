@@ -1,100 +1,115 @@
-<p align="center">
-  <img alt="Hero image" src="./.github/readme-images/Readme-Hero.png" />
-</p>
+<div align="center">
 
-<p align="center">
-  <a style="text-decoration:none" href="https://crowdin.com/project/flowlink"><img src="https://badges.crowdin.net/flowlink/localized.svg" alt="FlowLink Desktop Localization Status" /></a>
-  <a style="text-decoration:none" href="https://github.com/PLACEHOLDER/FlowLink-Android"><img src="https://img.shields.io/badge/android-repo-flowlink?logo=github" alt="FlowLink-Android" /></a>
-  <a style="text-decoration:none" href="https://discord.gg/MuvMqv4MES"><img src="https://img.shields.io/discord/1310140719138340925?label=Discord&color=7289da" alt="FlowLink Discord" /></a>
-</p>
+# 💻 FlowLink Desktop
+### *High-Performance Windows Companion for FlowLink Android*
 
+[![GitHub Android Repo](https://img.shields.io/badge/Android_Repo-FlowLink_Android-10b981?style=for-the-badge&logo=android&logoColor=white)](https://github.com/saferill/Flowlink-Android)
+[![Windows](https://img.shields.io/badge/Windows-10%20%2F%2011-00d2ff?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/saferill/Flowlink-Desktop)
+[![.NET](https://img.shields.io/badge/.NET-9.0_%2F_WinUI_3-9d4edd?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com)
+[![License](https://img.shields.io/badge/License-GPL_v3-f59e0b?style=for-the-badge)](LICENSE)
 
-**FlowLink** is designed to enhance your workflow by enabling seamless clipboard and notification sharing between your Windows PC and Android device. It's an alternative to existing solutions, tailored for users who want a straightforward and efficient way to keep their devices in sync.
+<br/>
 
-## Features
+**FlowLink Desktop** is a modern, lightweight, native Windows application built with **WinUI 3 and .NET 9**. It bridges your PC with your Android smartphone with **silent startup system tray execution**, **adaptive Tailscale fast polling**, **Windows Explorer right-click integration**, and **zero-latency socket transfers**.
 
-- **Clipboard Sharing**: Seamlessly share clipboard content between your Android device and Windows PC.
-- **Media Control**: Control media playback and volume of your PC from android. 
-- **File Sharing**: Share files between your devices easily.
-- **Storage Integration**: Integrate your Android storage into the Windows Explorer.
-- **Notification**: Allows toasting the notifications from your android in desktop.
-- **Screen mirroring**: Mirror and control the Android device via scrcpy. 
+</div>
 
-## Limitations
+---
 
-### **Notification Sync**
-- Due to Android's restrictions, sensitive notifications are no longer visible from Android 15 onwards.
-- To work around this limitation, you can grant the necessary permission using ADB. Run the following command:
+## 🌟 Interactive Live Architecture
 
-```sh
-adb shell appops set com.castle.flowlink RECEIVE_SENSITIVE_NOTIFICATIONS allow
+Open the interactive simulation in your browser:
+👉 **[`architecture.html`](./architecture.html)** *(Interactive motion flow, live packet simulator, and real-time signal waveforms)*
+
+```mermaid
+flowchart TD
+    subgraph STARTUP["🚀 Windows Startup & Lifecycle"]
+        direction TB
+        B1["Laptop Power On / Restart"] --> B2["Silent Startup Mode (InTray)"]
+        B2 --> B3["TrayIcon.ForceCreate() (Win32 NotifyIcon)"]
+        B3 --> B4["4-Second Tailscale Initialization Delay"]
+    end
+
+    subgraph DISCOVERY["🌐 Connection & Polling Engine"]
+        direction TB
+        P1["Adaptive 3-Second Fast Polling Loop"] --> P2["Scan Tailscale Peers & UDP LAN"]
+        P2 --> P3{"Android Found?"}
+        P3 -- "Yes" --> P4["Establish TLS 1.3 Socket (NoDelay)"]
+        P4 --> P5["Idle Mode (20s Heartbeat)"]
+        P3 -- "No" --> P1
+    end
+
+    subgraph ACTIONS["⚡ System Actions & Explorer Menu"]
+        direction TB
+        A1["Right-Click Explorer Menu ➔ 'Send to Phone'"]
+        A2["Win32 LockWorkStation() ➔ Instant Lock (0ms)"]
+        A3["Win32 EnumWindows + WM_CLOSE ➔ Close All Open Apps & Tabs"]
+        A4["shutdown.exe /s /t 0 /f ➔ Quick Power Off"]
+    end
+
+    STARTUP ==> DISCOVERY
+    DISCOVERY ==> ACTIONS
 ```
 
-## Installation
+---
 
-### Windows App
-<p align="left">
-  <!-- Store Badge -->
-  <a style="text-decoration:none" href="https://apps.microsoft.com/detail/9PJV6D1JPG0H?launch=true&mode=full" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source media="(prefers-color-scheme: light)" srcset=".github/./readme-images/StoreBadge-dark.png" width="220" />
-      <img src=".github/./readme-images/StoreBadge-light.png" width="200" />
-    </picture>
-  </a>
-</p>
+## 🚀 Key Desktop Features
 
-### Android App
+### 1. 🪟 Silent System Tray Autostart on Boot / Restart
+- Starts seamlessly on Windows boot without opening intrusive windows.
+- System tray icon is forced into the taskbar immediately via Win32 `Shell_NotifyIcon`.
+- Closing the window minimizes back to the tray so background synchronization never stops.
 
-[<img alt="Get it on Google Play" height="80" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png">](https://play.google.com/store/apps/details?id=com.castle.flowlink)
-[<img alt="Get it on IzzyOnDroid" height="80" src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png">](https://apt.izzysoft.de/fdroid/index/apk/com.castle.flowlink)
+### 2. ⏱️ Adaptive 3-Second Tailscale Fast Polling
+- **Startup Grace Period**: Waits 4 seconds upon boot for Windows network stack & Tailscale daemon to be ready.
+- **Fast Auto-Connect**: Searches every **3 seconds** until your Android phone is discovered, establishing connection automatically.
+- **Power Efficiency**: Switches to a low-power 20-second heartbeat once connected.
 
-## How to Use
+### 3. 🖱️ Windows Explorer Right-Click Context Menu
+- Right-click any file, photo, video, or folder in Windows Explorer:
+  👉 **"Send to Phone (FlowLink)"**
+- Instantly transmits the files to your active phone in milliseconds.
 
-1. **Setting Up**:
-    - On the Android device, allow the necessary permissions on the onboarding page. (**Note:** Allow restricted settings from App Info after attempting to grant notification access or accessibility permission, as Android blocks side-loaded apps from requesting sensitive permissions.)
-    - Ensure both your Android device and Windows PC are connected to the same network.
-    - Launch the app on your Windows PC and wait for the devices to show up on both.
-    - Initiate the connection on your Android device using either manual connect or auto connect. Manual connect is faster, while auto connect takes a bit more time to determine which IP address works for you.
-    - Once the connection is initiated, Windows will receive a pop-up to accept or decline the connection. Ensure that the keys match on both devices.
-    - After the authentication is done, you should be navigated to the home screens on both devices, wait a bit for the notifications on Windows to load up for the first time.
+### 4. ⚡ Native Win32 System Power Execution
+- **Lock Screen**: Calls `user32.dll` `LockWorkStation()` (0 ms).
+- **Close All Apps**: Iterates over top-level windows and sends `WM_CLOSE` to close all browsers, open tabs, and applications cleanly.
+- **Shutdown / Restart / Hibernate / Log Off**.
 
-    **Note:** If the devices can't connect even though both discover each other, make sure to check your firewall settings and these ports are open; 5149 to 5169. 
+### 5. 🚀 Ultra-Speed Socket Transfers
+- Configured with `OptionNoDelay = true` (disables Nagle's algorithm) and **2 MB – 4 MB socket buffers** for maximum wire-speed file throughput.
 
-2. **Clipboard Sharing**:
-    - When you copy content on your desktop, it will automatically sync with your Android device (provided you have enabled this feature in the settings). If you have also enabled image syncing, images should be sent as well. **Note:** You must enable the 'add received images to clipboard' option for image syncing to work.
-    - To automatically share the clipboard, enable the corresponding preference in the settings (accessibility permission is required). **Note:** This method may not work in every scenario.
-    - To manually share the clipboard, there are two primary methods: using the persistent device status notification or the share sheet.
-3. **File Transfer**:
-    - Use the share sheet on your Android or Windows device and select the app to share files between the devices.
-4. **Android Storage**:
-    - You would need Android 11 or higher
-    - Enable storage access permission in Android app's settings and the desktop app will create a link to the Android storage in the File Explorer.
-    - **Note:** This feature is still a bit experimental and may not work on all Windows versions especially older versions of Windows 10 and other unofficial debloated Windows 11 versions. 
-    - **WARNING**: DO NOT set the remote storage location to a pre-existing folder as it will delete the contents of that folder.
-5. **SMS Texting**:
-    - Grant all the permissions required from the permissions page in Android. After that, reconnect and the messages should appear in the Messages tab in the Desktop app. You can now view and send texts as sms. You can also switch sims if your device has dual sims. Attachments have not been implemented yet.
-6. **Screen Mirroring using [Scrcpy](https://github.com/Genymobile/scrcpy)**:
-    - You would need to [download](https://github.com/Genymobile/scrcpy/releases), extract and set the scrcpy location in App settings. 
-    - You can specify your preferences for the scrcpy to launch with in the screen mirroring section. 
-    - For initiating screen mirroring, the easiest way would be to plug your device through usb and start using the button next to the ringer mode (In the arguments text box add "--tcpip" if you want to make the connection wireless and you don't need to specify anymore arguments if you don't know what you're doing).
-    - FlowLink will try to connect to your device if the default tcpip port is open for subsequent connections.
-    - If you have any doubts or problems in connecting scrcpy, refer [scrcpy docs](https://github.com/Genymobile/scrcpy/blob/master/doc/connection.md) and [Scrcpy FAQ](https://github.com/Genymobile/scrcpy/blob/master/FAQ.md).
-    - If you like their project, please consider supporting the author [rom1v](https://blog.rom1v.com/about/#support-my-open-source-work)
-## Screenshots
+---
 
-<p align="center">
-  <img alt="Files hero image" src="./.github/readme-images/Screenshot.png" />
-</p>
+## 🏗️ Project Architecture
 
-## Contribute
+```
+FlowLink Desktop/
+├── src/FlowLink/
+│   ├── Assets/Icons/          # High-resolution multi-layer vectors & app tiles
+│   ├── Data/                  # Models, Contracts, SQLite repositories
+│   ├── Helpers/               # App lifecycle, Windows context menu registration
+│   ├── Platforms/Windows/     # Native Win32 services (WindowsActionService)
+│   ├── Services/
+│   │   ├── DiscoveryService.cs   # Tailscale adaptive polling & UDP discovery
+│   │   ├── FileTransfer/         # Adaptive chunk stream engine (64KB–4MB)
+│   │   └── Socket/               # Low-latency SocketProvider (NoDelay)
+│   ├── UserControls/             # TrayIconControl (Win32 NotifyIcon)
+│   └── Views/                    # WinUI 3 pages & dialogs
+```
 
-Feel free to open an issue if you want to report a bug, provide feedback, or ask a question. Pull requests are very welcome!
+---
 
-If you have any specific questions or need further details, please reach out to me on [the Discord server](https://discord.gg/MuvMqv4MES) or by email—I would be happy to help.
+## 💻 How to Use
 
-If you would like to translate the project into your language, you can find it on [Crowdin](https://crowdin.com/project/flowlink)
+1. **Launch**: Open FlowLink Desktop (or let it launch automatically on startup).
+2. **Pairing**: Connect via Wi-Fi LAN or Tailscale. Confirm pairing code on both devices.
+3. **Enjoy Zero-Click Continuity**:
+   - Copy text on laptop ➔ Pasted instantly on phone.
+   - Right-click file ➔ **Send to Phone (FlowLink)**.
+   - Control laptop power directly from your Android phone's control card!
 
-## Thanks
+---
 
-I would like to express my thanks to [@PrimalZed](https://github.com/PrimalZed) for his work on [CloudSync](https://github.com/PrimalZed/CloudSync) and
- to [@rom1v](https://github.com/rom1v) for developing [Scrcpy](https://github.com/Genymobile/scrcpy). Without them Android storage and Screen mirroring features wouldn't be possible.
+<div align="center">
+  <sub>Built with ❤️ for seamless cross-platform productivity.</sub>
+</div>
