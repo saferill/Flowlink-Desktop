@@ -11,7 +11,7 @@ public static class UserInformation
     /// <returns>The user's name</returns>
     public static async Task<string> GetCurrentUserNameAsync()
     {
-#if WINDOWS
+#if WINDOWS || __DESKTOP__
         try
         {
             var currentUser = await GetCurrentUserAsync();
@@ -110,7 +110,7 @@ public static class UserInformation
     /// <returns>The user's avatar as a base64 string, or null if unavailable</returns>
     public static async Task<string?> GetCurrentUserAvatarAsync()
     {
-#if WINDOWS
+#if WINDOWS || __DESKTOP__
         try
         {
             var currentUser = await GetCurrentUserAsync();
@@ -156,7 +156,7 @@ public static class UserInformation
 #endif
     }
 
-#if WINDOWS
+#if WINDOWS || __DESKTOP__
     private static async Task<User?> GetCurrentUserAsync()
     {
         try

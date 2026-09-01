@@ -342,7 +342,8 @@ public class DiscoveryService(
                 if (!isOnline) continue;
 
                 string os = peer.TryGetProperty("OS", out var osProp) ? osProp.GetString() ?? "" : "";
-                if (!os.Equals("android", StringComparison.OrdinalIgnoreCase)) continue;
+                string hostName = peer.TryGetProperty("HostName", out var hProp) ? hProp.GetString() ?? "Android Device" : "Android Device";
+                string peerId = peer.TryGetProperty("ID", out var idProp) ? idProp.GetString() ?? "" : "";
 
                 if (peer.TryGetProperty("TailscaleIPs", out var ipsProp) && ipsProp.ValueKind == JsonValueKind.Array)
                 {
@@ -378,7 +379,32 @@ public class DiscoveryService(
                             }
                         }
 
-                        // 2. Proactively initiate TLS connection to Android across all server ports (5149 to 5169)
+                        // 2. Add directly to UI DiscoveredDevices list so it appears immediately on SyncPage and AvailableDevices
+                        string targetId = string.IsNullOrEmpty(peerId) ? ip : peerId;
+                        if (!deviceManager.PairedDevices.Any(d => d.Addresses.Any(a => a.Address == ip)) &&
+                            !deviceManager.DiscoveredDevices.Any(d => d.Address == ip || d.Id == targetId))
+                        {
+                            var discovered = new DiscoveredDevice
+                            {
+                                Id = targetId,
+                                Name = $"{hostName} (Tailscale)",
+                                Address = ip,
+                                Port = 5150,
+                                VerificationKey = $"Tailscale: {ip}"
+                            };
+                            if (App.MainWindow?.DispatcherQueue != null)
+                            {
+                                App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                                {
+                                    if (!deviceManager.DiscoveredDevices.Any(d => d.Address == ip || d.Id == discovered.Id))
+                                    {
+                                        deviceManager.DiscoveredDevices.Add(discovered);
+                                    }
+                                });
+                            }
+                        }
+
+                        // 3. Proactively initiate TLS connection to Android across all server ports (5149 to 5169)
                         sessionManager.ConnectTo(ip, ip, DiscoveryPort);
                         foreach (int port in PORT_RANGE)
                         {

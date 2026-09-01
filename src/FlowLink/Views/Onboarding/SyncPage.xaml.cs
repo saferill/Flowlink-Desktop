@@ -24,6 +24,12 @@ public sealed partial class SyncPage : Page
 
     private async void SyncPage_Loaded(object sender, RoutedEventArgs e)
     {
+        try
+        {
+            var networkService = Ioc.Default.GetRequiredService<INetworkService>();
+            await networkService.StartServerAsync();
+        }
+        catch { }
         await DiscoveryService.StartDiscoveryAsync();
         await GenerateQrCodeAsync();
     }
