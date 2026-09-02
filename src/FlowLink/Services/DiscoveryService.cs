@@ -235,8 +235,8 @@ public class DiscoveryService(
                     logger.Warn($"Error in Tailscale Auto-Discovery scan: {ex.Message}");
                 }
 
-                // If not connected, search aggressively every 3 seconds; once connected, idle check every 20 seconds
-                var delaySeconds = isAnyDeviceConnected ? 20 : 3;
+                // If not connected, search aggressively every 2 seconds; once connected, idle check every 15 seconds
+                var delaySeconds = isAnyDeviceConnected ? 15 : 2;
                 try
                 {
                     await Task.Delay(TimeSpan.FromSeconds(delaySeconds), token);
@@ -251,16 +251,13 @@ public class DiscoveryService(
 
     private async Task ScanAndConnectTailscalePeersAsync()
     {
-        // 1. Check known paired devices with Tailscale IPs
+        // 1. Connect immediately to all known paired devices using their persistent IP addresses (Tailscale & LAN)
         foreach (var pairedDevice in deviceManager.PairedDevices)
         {
             if (pairedDevice.IsConnected) continue;
 
-            var tailscaleAddress = pairedDevice.Addresses.FirstOrDefault(a => a.Address.StartsWith("100."));
-            if (tailscaleAddress != null)
-            {
-                sessionManager.ConnectTo(tailscaleAddress.Address, tailscaleAddress.Address, pairedDevice.Port);
-            }
+            // Connect using all stored persistent IP addresses in database
+            sessionManager.ConnectTo(pairedDevice);
         }
 
         // 2. Discover active Android Tailscale peers via Tailscale CLI

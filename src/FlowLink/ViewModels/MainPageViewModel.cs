@@ -52,6 +52,7 @@ public sealed partial class MainPageViewModel : BaseViewModel
         }
         else
         {
+            Device.ConnectionStatus = new Disconnected(forcedDisconnect: false);
             SessionManager.ConnectTo(Device);
         }
     }

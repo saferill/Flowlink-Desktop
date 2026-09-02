@@ -130,17 +130,14 @@ public class NetworkService(
 
         _ = Task.Run(async () =>
         {
-            var delays = new[] { 1, 2, 4, 8, 16, 30 };
-            int attempt = 0;
-
             while (!cts.Token.IsCancellationRequested)
             {
-                int delaySec = delays[Math.Min(attempt, delays.Length - 1)];
-                logger.Info($"[AutoReconnect] {device.Name}: next attempt in {delaySec}s (attempt #{attempt + 1})");
+                attempt++;
+                logger.Info($"[AutoReconnect] {device.Name}: next attempt in 2s (attempt #{attempt})");
 
                 try
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(delaySec), cts.Token);
+                    await Task.Delay(TimeSpan.FromSeconds(2), cts.Token);
                 }
                 catch (OperationCanceledException)
                 {
