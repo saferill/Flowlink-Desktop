@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.AppLifecycle;
 using FlowLink.Helpers;
@@ -599,3 +599,4 @@ public partial class App : Application
         DeviceSettingsWindows.Remove(deviceId);
     }
 }
+
