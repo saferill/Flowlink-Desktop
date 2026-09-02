@@ -591,7 +591,9 @@ public class NetworkService(
         if (existingDevice is not null && (existingDevice.IsConnectedOrConnecting || existingDevice.IsForcedDisconnect))
             return;
 
-        if (DiscoveredDevices.Any(d => d.Id == deviceId)) return;
+        var discovered = DiscoveredDevices.FirstOrDefault(d => d.Id == deviceId || d.Address == address);
+        if (discovered != null && (discovered.Session != null || (discovered.Client != null && discovered.Client.IsConnected)))
+            return;
 
         lock (connectingDeviceIds)
         {
@@ -724,10 +726,54 @@ public class NetworkService(
         }
     }
 
-    public void Pair(DiscoveredDevice device)
+    public async void Pair(DiscoveredDevice device)
     {
-        device.SendMessage(new PairMessage { Pair = true });
         device.IsPairing = true;
+        try
+        {
+            if (device.Session == null && (device.Client == null || !device.Client.IsConnected))
+            {
+                logger.Info($"Device {device.Name} ({device.Address}:{device.Port}) has no active socket. Establishing TLS connection before pairing...");
+                var clientContext = device.Certificate != null && device.Certificate.Length > 0
+                    ? SslHelper.CreateSslContext(device.Certificate)
+                    : SslHelper.GetSslContext();
+
+                var client = new Client(clientContext, device.Address, device.Port, this);
+                device.Client = client;
+
+                if (client.ConnectAsync())
+                {
+                    if (!client.IsHandshaked)
+                    {
+                        var tcs = new TaskCompletionSource<bool>();
+                        handshakeCompletion[client.Id] = tcs;
+                        try
+                        {
+                            await tcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.Warn($"Handshake timed out or failed for {device.Address}:{device.Port}: {ex.Message}");
+                        }
+                        finally
+                        {
+                            handshakeCompletion.TryRemove(client.Id, out _);
+                        }
+                    }
+
+                    SendAuthenticationMessage(m => SendMessage(client, m));
+                    await Task.Delay(300);
+                }
+            }
+
+            logger.Info($"Sending PairMessage to {device.Name}");
+            device.SendMessage(new PairMessage { Pair = true });
+        }
+        catch (Exception ex)
+        {
+            logger.Error($"Failed to pair with {device.Name}", ex);
+            device.IsPairing = false;
+        }
     }
 
     #region Client events
@@ -852,10 +898,12 @@ public class NetworkService(
     {
         var verificationKey = SslHelper.GetVerificationCode(authMessage.PublicKey);
 
-        var existingDevice = DiscoveredDevices.FirstOrDefault(d => d.Id == authMessage.DeviceId);
-        if (existingDevice is not null && existingDevice.Session is not null)
+        var existingDevice = DiscoveredDevices.FirstOrDefault(d => d.Id == authMessage.DeviceId || d.Address == address);
+        if (existingDevice is not null)
         {
-            DisconnectSession(existingDevice.Session);
+            if (existingDevice.Session is not null) DisconnectSession(existingDevice.Session);
+            if (existingDevice.Client is not null && existingDevice.Client != client) DisconnectClient(existingDevice.Client);
+            await App.MainWindow.DispatcherQueue.EnqueueAsync(() => DiscoveredDevices.Remove(existingDevice));
         }
 
         var device = new DiscoveredDevice

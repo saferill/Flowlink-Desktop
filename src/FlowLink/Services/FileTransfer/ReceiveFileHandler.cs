@@ -33,6 +33,38 @@ public partial class ReceiveFileHandler(
     public double Progress => (double)totalBytesTransferred / totalBytes * 100;
     public bool IsBulkTransfer => files.Count > 1;
 
+    private List<string> GetCandidateAddresses()
+    {
+        var candidates = new List<string>();
+
+        if (device.Client != null && device.Client.IsConnected && !string.IsNullOrWhiteSpace(device.Client.Address))
+        {
+            candidates.Add(device.Client.Address);
+        }
+
+        if (device.Session != null && device.Session.IsConnected && device.Session.Socket.RemoteEndPoint is System.Net.IPEndPoint remoteEp)
+        {
+            var sessionIp = remoteEp.Address.ToString();
+            if (!candidates.Contains(sessionIp))
+                candidates.Add(sessionIp);
+        }
+
+        if (!string.IsNullOrWhiteSpace(device.Address) && !candidates.Contains(device.Address))
+        {
+            candidates.Add(device.Address);
+        }
+
+        foreach (var addr in device.GetEnabledAddresses())
+        {
+            if (!string.IsNullOrWhiteSpace(addr) && !candidates.Contains(addr))
+            {
+                candidates.Add(addr);
+            }
+        }
+
+        return candidates;
+    }
+
     /// <summary>
     /// Connects to the file transfer server and authenticates.
     /// </summary>
@@ -40,20 +72,46 @@ public partial class ReceiveFileHandler(
     public async Task<Guid> ConnectAsync()
     {
         var clientContext = SslHelper.CreateSslContext(expectedCert);
-        client = new Client(clientContext, device.Address, serverInfo.Port, this);
-        TransferId = client.Id;
+        var candidates = GetCandidateAddresses();
 
-        if (!client.ConnectAsync())
-            throw new IOException("Failed to connect to file transfer server");
+        if (candidates.Count == 0)
+            throw new IOException($"No target address available for device {device.Name} ({device.Id})");
 
-        // Wait for TLS handshake
-        if (!client.IsHandshaked)
+        Exception? lastException = null;
+
+        foreach (var address in candidates)
         {
-            handshakeTcs = new TaskCompletionSource<bool>();
-            await handshakeTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            try
+            {
+                logger.Info($"Attempting file transfer connection to {address}:{serverInfo.Port} for device {device.Name}");
+                client = new Client(clientContext, address, serverInfo.Port, this);
+                TransferId = client.Id;
+
+                if (!client.ConnectAsync())
+                {
+                    logger.Warn($"Failed to initiate socket connection to {address}:{serverInfo.Port}");
+                    continue;
+                }
+
+                // Wait for TLS handshake
+                if (!client.IsHandshaked)
+                {
+                    handshakeTcs = new TaskCompletionSource<bool>();
+                    await handshakeTcs.Task.WaitAsync(TimeSpan.FromSeconds(8));
+                }
+
+                logger.Info($"Successfully connected to file transfer server at {address}:{serverInfo.Port}");
+                return TransferId;
+            }
+            catch (Exception ex)
+            {
+                logger.Warn($"Failed file transfer connection to {address}:{serverInfo.Port}: {ex.Message}");
+                lastException = ex;
+                try { client?.DisconnectAsync(); } catch { }
+            }
         }
 
-        return TransferId;
+        throw new IOException($"Failed to connect to file transfer server on any address. Last error: {lastException?.Message}", lastException);
     }
 
     /// <summary>

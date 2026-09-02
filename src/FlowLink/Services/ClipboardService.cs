@@ -162,15 +162,19 @@ public class ClipboardService(
     }
     
 
+    private static string? lastSentText;
+    private static string? lastReceivedText;
+
     private static async Task TryHandleTextContent(DataPackageView dataPackageView, List<PairedDevice> devices)
     {
         if (!dataPackageView.Contains(StandardDataFormats.Text)) return;
 
         string? text = await dataPackageView.GetTextAsync();
-        if (string.IsNullOrEmpty(text)) return;
+        if (string.IsNullOrEmpty(text) || text == lastReceivedText || text == lastSentText) return;
 
         // Convert Windows CRLF to Unix LF 
         text = text.Replace("\r\n", "\n");
+        lastSentText = text;
         
         var message = new ClipboardInfo { Content = text, ClipboardType = "text/plain" };
 
@@ -208,12 +212,21 @@ public class ClipboardService(
                 switch (content)
                 {
                     case StorageFile file:
-                        // Set package family name for proper file handling
-                        dataPackage.Properties.PackageFamilyName = Package.Current.Id.FamilyName;
-                        // Pass false as second parameter to indicate the app isn't taking ownership of the files
+                        try
+                        {
+                            dataPackage.Properties.PackageFamilyName = Package.Current.Id.FamilyName;
+                        }
+                        catch { }
                         dataPackage.SetStorageItems([file], false);
                         break;
                     case string textContent:
+                        if (string.IsNullOrEmpty(textContent) || textContent == "null")
+                            return;
+
+                        if (textContent == lastReceivedText)
+                            return;
+
+                        lastReceivedText = textContent;
                         dataPackage.SetText(textContent);
                         Uri.TryCreate(textContent, UriKind.Absolute, out Uri? uri);
                         bool isValidUri = IsValidWebUrl(uri);
@@ -239,8 +252,36 @@ public class ClipboardService(
                         throw new ArgumentException($"Unsupported content type: {content.GetType()}");
                 }
 
-                Clipboard.SetContent(dataPackage);
-                logger.Info($"Clipboard content set. Type: {content.GetType().Name}");
+                // Robust retry loop for Windows clipboard contention (CLIPBRD_E_CANT_OPEN)
+                bool success = false;
+                for (int attempt = 0; attempt < 5; attempt++)
+                {
+                    try
+                    {
+                        Clipboard.SetContent(dataPackage);
+                        Clipboard.Flush();
+                        success = true;
+                        break;
+                    }
+                    catch (System.Runtime.InteropServices.COMException)
+                    {
+                        await Task.Delay(60);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Warn($"Clipboard.SetContent attempt {attempt + 1} failed: {ex.Message}");
+                        await Task.Delay(60);
+                    }
+                }
+
+                if (success)
+                {
+                    logger.Info($"Clipboard content set successfully. Type: {content.GetType().Name}");
+                }
+                else
+                {
+                    logger.Warn("Failed to set Windows clipboard content after multiple attempts.");
+                }
             }
             catch (Exception ex)
             {

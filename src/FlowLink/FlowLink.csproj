@@ -10,12 +10,12 @@
         <!-- App Identifier -->
         <ApplicationId>com.flowlink.castle</ApplicationId>
         <!-- Versions -->
-        <ApplicationDisplayVersion>2.4.0</ApplicationDisplayVersion>
-        <ApplicationVersion>8</ApplicationVersion>
+        <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
         <!-- Package Publisher -->
-        <ApplicationPublisher>safe_rill</ApplicationPublisher>
+        <ApplicationPublisher>saferill</ApplicationPublisher>
         <!-- Package Description -->
-        <Description>FlowLink powered by Uno Platform.</Description>
+        <Description>FlowLink by saferill - Fast and secure device connectivity.</Description>
         <!--
             If you encounter this error message:
 

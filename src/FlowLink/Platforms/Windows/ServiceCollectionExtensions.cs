@@ -81,7 +81,7 @@ public static class ServiceCollectionExtensions
         services
             .AddOptionsWithValidateOnStart<ProviderOptions>()
             .Configure<IConfiguration>((options, config) => {
-                options.ProviderId = "safe_rill:FlowLink";
+                options.ProviderId = "saferill:FlowLink";
             })
             .Services
             .AddSingleton<SyncProviderPool>()

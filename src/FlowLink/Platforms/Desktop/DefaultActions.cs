@@ -15,6 +15,7 @@ public class DesktopDefaultActions
                 new ProcessAction { Id = "shutdown", Name = "Shutdown", Path = "shutdown.exe", Arguments = "/s /t 0 /f" },
                 new ProcessAction { Id = "restart", Name = "Restart", Path = "shutdown.exe", Arguments = "/r /t 0 /f" },
                 new ProcessAction { Id = "hibernate", Name = "Hibernate", Path = "shutdown.exe", Arguments = "/h" },
+                new ProcessAction { Id = "sleep", Name = "Sleep", Path = "rundll32.exe", Arguments = "powrprof.dll,SetSuspendState 0,1,0" },
                 new ProcessAction { Id = "logoff", Name = "Log Off", Path = "shutdown.exe", Arguments = "/l" },
             ];
         }

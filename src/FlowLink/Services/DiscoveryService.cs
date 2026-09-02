@@ -404,12 +404,8 @@ public class DiscoveryService(
                             }
                         }
 
-                        // 3. Proactively initiate TLS connection to Android across all server ports (5149 to 5169)
-                        sessionManager.ConnectTo(ip, ip, DiscoveryPort);
-                        foreach (int port in PORT_RANGE)
-                        {
-                            sessionManager.ConnectTo(ip, ip, port);
-                        }
+                        // 3. Proactively initiate TLS connection to Android on FlowLink port 5150
+                        sessionManager.ConnectTo(targetId, ip, 5150);
                     }
                 }
             }

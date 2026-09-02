@@ -36,6 +36,13 @@
                 FontWeight="Medium"
                 Text="{helpers:ResourceString Name=About}" />
 
+            <!--  Developer  -->
+            <wuc:SettingsCard Description="saferill" Header="Developer">
+                <wuc:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xE77B;" />
+                </wuc:SettingsCard.HeaderIcon>
+            </wuc:SettingsCard>
+
             <!--  App Version  -->
             <wuc:SettingsCard Description="{x:Bind ViewModel.Version}" Header="{x:Bind ViewModel.AppName}">
                 <wuc:SettingsCard.HeaderIcon>
@@ -126,17 +133,6 @@
                     </ItemsRepeater>
                 </wuc:SettingsExpander.ItemsHeader>
             </wuc:SettingsExpander>
-
-            <!--  Support  -->
-            <wuc:SettingsCard
-                Command="{x:Bind ViewModel.OpenDonateCommand}"
-                Header="{helpers:ResourceString Name=SupportDevelopment}"
-                IsClickEnabled="True">
-                <wuc:SettingsCard.HeaderIcon>
-                    <FontIcon Glyph="&#xE719;" />
-                </wuc:SettingsCard.HeaderIcon>
-                <FontIcon Glyph="&#xE8A7;" />
-            </wuc:SettingsCard>
 
             <!--  Open Logs  -->
             <wuc:SettingsCard

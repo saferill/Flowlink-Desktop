@@ -76,4 +76,22 @@ public sealed partial class SyncPage : Page
             SessionManager.Pair(device);
         }
     }
+
+    private void DirectConnectButton_Click(object sender, RoutedEventArgs e)
+    {
+        var ip = DirectIpTextBox.Text?.Trim();
+        if (!string.IsNullOrEmpty(ip))
+        {
+            SessionManager.ConnectTo(ip, ip, 5150);
+            var device = new DiscoveredDevice
+            {
+                Id = ip,
+                Name = $"Device ({ip})",
+                Address = ip,
+                Port = 5150,
+                VerificationKey = $"Tailscale: {ip}"
+            };
+            SessionManager.Pair(device);
+        }
+    }
 }

@@ -26,11 +26,11 @@
     xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
     IgnorableNamespaces="uap rescap rescap5 uap3 uap13 desktop2 desktop3 desktop4 desktop6 desktop7 cloudfiles cloudfiles2 mp">
     
-        <Identity  Version="2.4.0.0" Name="safe_rill.Seki-PhoneLink" Publisher="CN=BEC0F2AA-07EB-4762-A2FE-13550AF289A5"/>
+        <Identity  Version="1.0.0.0" Name="saferill.FlowLink" Publisher="CN=BEC0F2AA-07EB-4762-A2FE-13550AF289A5"/>
     
     <Properties >
         <DisplayName>FlowLink</DisplayName>
-        <PublisherDisplayName>safe_rill</PublisherDisplayName>
+        <PublisherDisplayName>saferill</PublisherDisplayName>
         <Logo>Assets\AppTiles\StoreLogo.png</Logo>
     </Properties >
 

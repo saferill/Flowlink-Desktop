@@ -94,6 +94,12 @@
                 </ItemsRepeater.ItemTemplate>
             </ItemsRepeater>
 
+            <!--  Direct Connect by IP / Tailscale  -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
+                <TextBox x:Name="DirectIpTextBox" Width="180" PlaceholderText="100.x.x.x (Tailscale IP)" />
+                <Button x:Name="DirectConnectButton" Click="DirectConnectButton_Click" Content="Hubungkan IP" />
+            </StackPanel>
+
             <!--  Tailscale tips  -->
             <TextBlock
                 HorizontalAlignment="Center"

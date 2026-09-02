@@ -245,15 +245,15 @@ public partial class SendFileHandler(
 
     public void OnReceived(ServerSession session, byte[] buffer, long offset, long size)
     {
-        string message = Encoding.UTF8.GetString(buffer, (int)offset, (int)size);
+        string message = Encoding.UTF8.GetString(buffer, (int)offset, (int)size).Trim();
 
-        if (message == FileTransferService.StartMessage && startMessageSource?.Task.IsCompleted is false)
+        if (message.Equals(FileTransferService.StartMessage, StringComparison.OrdinalIgnoreCase) && startMessageSource?.Task.IsCompleted is false)
         {
             startMessageSource.TrySetResult(true);
             return;
         }
 
-        if (message == FileTransferService.CompleteMessage)
+        if (message.Equals(FileTransferService.CompleteMessage, StringComparison.OrdinalIgnoreCase))
         {
             transferCompletionSource?.TrySetResult(true);
         }

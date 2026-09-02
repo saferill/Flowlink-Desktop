@@ -39,14 +39,14 @@ public static class Constants
 
     public static class ExternalUrl
     {
-        public const string ReleasesUrl = @"https://github.com/PLACEHOLDER/FlowLink/releases/latest";
-        public const string AndroidGitHubRepoUrl = @"https://github.com/PLACEHOLDER/FlowLink-Android";
-        public const string GitHubRepoUrl = @"https://github.com/PLACEHOLDER/FlowLink";
+        public const string ReleasesUrl = @"https://github.com/safe_rill/FlowLink/releases/latest";
+        public const string AndroidGitHubRepoUrl = @"https://github.com/safe_rill/FlowLink-Android";
+        public const string GitHubRepoUrl = @"https://github.com/safe_rill/FlowLink";
         public const string DiscordUrl = @"https://discord.gg/MuvMqv4MES";
-        public const string FeatureRequestUrl = @"https://github.com/PLACEHOLDER/FlowLink/issues/new?template=request_feature.yml";
-        public const string BugReportUrl = @"https://github.com/PLACEHOLDER/FlowLink/issues/new?template=report_issue.yml";
-        public const string PrivacyPolicyUrl = @"https://github.com/PLACEHOLDER/FlowLink/blob/master/.github/Privacy.md";
-        public const string LicenseUrl = @"https://github.com/PLACEHOLDER/FlowLink/blob/master/LICENSE";
+        public const string FeatureRequestUrl = @"https://github.com/safe_rill/FlowLink/issues";
+        public const string BugReportUrl = @"https://github.com/safe_rill/FlowLink/issues";
+        public const string PrivacyPolicyUrl = @"https://github.com/safe_rill/FlowLink/blob/master/Privacy.md";
+        public const string LicenseUrl = @"https://github.com/safe_rill/FlowLink/blob/master/LICENSE";
         public const string DonateUrl = @"https://linktr.ee/safe_rill";
     }
 
