@@ -47,9 +47,16 @@ public partial class SendFileHandler(
         // Let caller create and send the appropriate message type
         sendTransferMessage(serverInfo);
 
-        // Wait for client to connect
+        // Wait for client to connect with 15s timeout
         connectionSource = new TaskCompletionSource<ServerSession>();
-        session = await connectionSource.Task;
+        try
+        {
+            session = await connectionSource.Task.WaitAsync(TimeSpan.FromSeconds(15), cancellationTokenSource.Token);
+        }
+        catch (TimeoutException)
+        {
+            throw new IOException($"Connection timed out waiting for {device.Name}. Make sure both devices are on the same network.");
+        }
         TransferId = session.Id;
 
         return TransferId;
