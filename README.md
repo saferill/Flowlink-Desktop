@@ -83,3 +83,4 @@ dotnet build -c Release
 
 This project is licensed under the **[GNU General Public License v3.0 (GPL-3.0)](LICENSE)**.
 Created by **[saferill](https://github.com/saferill)**.
+
