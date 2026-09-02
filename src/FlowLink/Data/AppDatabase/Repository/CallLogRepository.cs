@@ -1,4 +1,4 @@
-using FlowLink.Data.AppDatabase.Models;
+﻿using FlowLink.Data.AppDatabase.Models;
 using FlowLink.Data.Models;
 
 namespace FlowLink.Data.AppDatabase.Repository;
@@ -58,7 +58,6 @@ public class CallLogRepository(
             logger.Error($"Failed to save call log for device {deviceId}.", ex);
         }
     }
-
 
     /// <summary>
     /// Deletes all call log entries for a device. Call when a device is removed.

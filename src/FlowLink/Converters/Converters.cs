@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using Microsoft.UI.Xaml.Data;
 using FlowLink.Data.Models;
 
@@ -128,7 +128,6 @@ internal sealed partial class EmptyObjectToBooleanConverter : ValueConverter<obj
         return null;
     }
 }
-
 
 internal sealed partial class EmptyObjectToVisibilityConverter : IValueConverter
 {
