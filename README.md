@@ -1,24 +1,44 @@
 <div align="center">
 
-# 💻 FlowLink Desktop
+<img src="./logo.png" alt="FlowLink Logo" width="140" style="border-radius: 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); margin-bottom: 12px;"/>
+
+# ⚡ FlowLink Desktop
+
 ### *High-Performance Windows Companion for FlowLink Android*
 
-[![GitHub Android Repo](https://img.shields.io/badge/Android_Repo-FlowLink_Android-10b981?style=for-the-badge&logo=android&logoColor=white)](https://github.com/saferill/Flowlink-Android)
+[![GitHub Android Repo](https://img.shields.io/badge/Android_Companion-FlowLink_Android-10b981?style=for-the-badge&logo=android&logoColor=white)](https://github.com/saferill/Flowlink-Android)
 [![Windows](https://img.shields.io/badge/Windows-10%20%2F%2011-00d2ff?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/saferill/Flowlink-Desktop)
 [![.NET](https://img.shields.io/badge/.NET-9.0_%2F_WinUI_3-9d4edd?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com)
 [![License](https://img.shields.io/badge/License-GPL_v3-f59e0b?style=for-the-badge)](LICENSE)
 
 <br/>
 
-**FlowLink Desktop** is a modern, lightweight, native Windows application built with **WinUI 3 and .NET 9**. It bridges your PC with your Android smartphone with **silent startup system tray execution**, **adaptive Tailscale fast polling**, **Windows Explorer right-click integration**, and **zero-latency socket transfers**.
+**FlowLink Desktop** is a modern, lightweight, native Windows companion built with **WinUI 3 and .NET 9**. It bridges your PC with your Android smartphone featuring **silent system tray startup**, **adaptive fast network discovery**, **Windows Explorer right-click integration**, and **bi-directional clipboard synchronization**.
 
 </div>
 
 ---
 
-## 🌟 Interactive Live Architecture
+## 📥 Download FlowLink (Both Devices Required)
 
-Open the interactive simulation in your browser:
+> 💡 **Penting**: Untuk menghubungkan perangkat, pasang FlowLink di laptop/PC Windows **DAN** di smartphone Android kamu.
+
+| Platform | Download Link | Deskripsi / Format |
+| :--- | :--- | :--- |
+| 💻 **Windows PC** | 📥 [**FlowLink Desktop Setup (.exe)**](https://github.com/saferill/Flowlink-Desktop/releases/latest) <br><br> 🗜️ [**FlowLink Desktop Portable (.zip)**](https://github.com/saferill/Flowlink-Desktop/releases/latest) | Installer resmi dengan shortcut Start Menu & Desktop, atau versi Portable tanpa instalasi (Windows 10/11) |
+| 📱 **Android** | [![Get it on IzzyOnDroid](https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png)](https://apt.izzysoft.de/fdroid/index/apk/com.castle.FlowLink) <br><br> 📦 [**Download APK Langsung (v1.0.0)**](https://github.com/saferill/Flowlink-Android/releases/latest) | Pasang via F-Droid / IzzyOnDroid untuk update otomatis, atau unduh file APK resmi (Android 8.0+) |
+
+---
+
+## 🔗 Repositori Resmi
+* 💻 **Windows Desktop Repo**: [saferill/Flowlink-Desktop](https://github.com/saferill/Flowlink-Desktop)
+* 📱 **Android App Repo**: [saferill/Flowlink-Android](https://github.com/saferill/Flowlink-Android)
+
+---
+
+## 🌟 Architecture Overview
+
+Open the interactive simulation in your browser:  
 👉 **[`architecture.html`](./architecture.html)** *(Interactive motion flow, live packet simulator, and real-time signal waveforms)*
 
 ```mermaid
@@ -53,63 +73,36 @@ flowchart TD
 
 ---
 
-## 🚀 Key Desktop Features
+## 🚀 Fitur Unggulan Desktop
 
 ### 1. 🪟 Silent System Tray Autostart on Boot / Restart
-- Starts seamlessly on Windows boot without opening intrusive windows.
-- System tray icon is forced into the taskbar immediately via Win32 `Shell_NotifyIcon`.
-- Closing the window minimizes back to the tray so background synchronization never stops.
+- Berjalan otomatis di latar belakang (*system tray*) saat Windows menyala tanpa membuka jendela yang mengganggu.
+- Ikon tray Win32 dibuat langsung secara responsif.
 
-### 2. ⏱️ Adaptive 3-Second Tailscale Fast Polling
-- **Startup Grace Period**: Waits 4 seconds upon boot for Windows network stack & Tailscale daemon to be ready.
-- **Fast Auto-Connect**: Searches every **3 seconds** until your Android phone is discovered, establishing connection automatically.
-- **Power Efficiency**: Switches to a low-power 20-second heartbeat once connected.
+### 2. 🖱️ Integrasi Menu Klik-Kanan Windows Explorer
+- Klik kanan file apa saja di laptop kamu ➔ pilih **"Send to Phone"** untuk langsung mengirim file ke Android tanpa perantara cloud.
 
-### 3. 🖱️ Windows Explorer Right-Click Context Menu
-- Right-click any file, photo, video, or folder in Windows Explorer:
-  👉 **"Send to Phone (FlowLink)"**
-- Instantly transmits the files to your active phone in milliseconds.
+### 3. 📋 Sinkronisasi Clipboard Dua Arah
+- Teks yang kamu copy di Windows langsung tersedia di clipboard Android dalam hitungan milidetik.
 
-### 4. ⚡ Native Win32 System Power Execution
-- **Lock Screen**: Calls `user32.dll` `LockWorkStation()` (0 ms).
-- **Close All Apps**: Iterates over top-level windows and sends `WM_CLOSE` to close all browsers, open tabs, and applications cleanly.
-- **Shutdown / Restart / Hibernate / Log Off**.
-
-### 5. 🚀 Ultra-Speed Socket Transfers
-- Configured with `OptionNoDelay = true` (disables Nagle's algorithm) and **2 MB – 4 MB socket buffers** for maximum wire-speed file throughput.
+### 4. 🔒 Kendali Jarak Jauh dari Android
+- Kunci layar Windows (*Lock Workstation*), tutup semua aplikasi, atau matikan laptop dari jarak jauh melalui smartphone kamu.
 
 ---
 
-## 🏗️ Project Architecture
+## 🛠️ Build dari Source Code
 
-```
-FlowLink Desktop/
-├── src/FlowLink/
-│   ├── Assets/Icons/          # High-resolution multi-layer vectors & app tiles
-│   ├── Data/                  # Models, Contracts, SQLite repositories
-│   ├── Helpers/               # App lifecycle, Windows context menu registration
-│   ├── Platforms/Windows/     # Native Win32 services (WindowsActionService)
-│   ├── Services/
-│   │   ├── DiscoveryService.cs   # Tailscale adaptive polling & UDP discovery
-│   │   ├── FileTransfer/         # Adaptive chunk stream engine (64KB–4MB)
-│   │   └── Socket/               # Low-latency SocketProvider (NoDelay)
-│   ├── UserControls/             # TrayIconControl (Win32 NotifyIcon)
-│   └── Views/                    # WinUI 3 pages & dialogs
+```bash
+# Clone repository
+git clone https://github.com/saferill/Flowlink-Desktop.git
+cd Flowlink-Desktop
+
+# Build Release Installer
+powershell -ExecutionPolicy Bypass -File build-release.ps1
 ```
 
 ---
 
-## 💻 How to Use
-
-1. **Launch**: Open FlowLink Desktop (or let it launch automatically on startup).
-2. **Pairing**: Connect via Wi-Fi LAN or Tailscale. Confirm pairing code on both devices.
-3. **Enjoy Zero-Click Continuity**:
-   - Copy text on laptop ➔ Pasted instantly on phone.
-   - Right-click file ➔ **Send to Phone (FlowLink)**.
-   - Control laptop power directly from your Android phone's control card!
-
----
-
-<div align="center">
-  <sub>Built with ❤️ for seamless cross-platform productivity.</sub>
-</div>
+## 📜 Lisensi
+Proyek ini dilisensikan di bawah lisensi **[GNU General Public License v3.0 (GPL-3.0)](LICENSE)**.
+Dikembangkan dan dirawat secara aktif oleh **[saferill](https://github.com/saferill)**.
