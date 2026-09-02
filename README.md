@@ -61,35 +61,6 @@
 Open the interactive simulation in your browser:  
 👉 **[`architecture.html`](./architecture.html)** *(Interactive motion flow, live packet simulator, and real-time signal waveforms)*
 
-```mermaid
-flowchart LR
-    subgraph DESKTOP["💻 FlowLink Desktop (WinUI 3 / .NET 9)"]
-        direction TB
-        D1["🔄 Silent System Tray Autostart (Boot / Restart)"]
-        D2["⏱️ Adaptive 2s Fast Polling Discovery Loop"]
-        D3["🖱️ Explorer Context Menu ('Send to Phone')"]
-        D4["⚡ Native Win32 API Execution (0ms Response)"]
-    end
-
-    subgraph MESH["🌐 Encrypted WireGuard / TLS 1.3 Mesh"]
-        direction TB
-        M1["TCP NoDelay (Nagle Disabled)"]
-        M2["2MB Socket Windows"]
-        M3["Zero-Latency Stream Pipeline"]
-    end
-
-    subgraph ANDROID["📱 FlowLink Android (Kotlin / Compose)"]
-        direction TB
-        A1["🚀 Network Discovery (mDNS & Tailscale CGNAT)"]
-        A2["⚡ Adaptive Buffer Stream (64KB ➔ 4MB Chunks)"]
-        A3["🔒 Device Control Card (Lock, Close All Apps, Shutdown)"]
-        A4["📋 Clipboard & Notification Mirroring (E2EE)"]
-    end
-
-    DESKTOP <===>|"Encrypted Sockets (Port 5149–5169)"| MESH
-    MESH <===>|"High-Throughput IO"| ANDROID
-```
-
 ---
 
 ## 🚀 Fitur Unggulan
