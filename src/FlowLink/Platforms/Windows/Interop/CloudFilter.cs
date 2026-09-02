@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using FlowLink.Platforms.Windows.Helpers;
 using FlowLink.Platforms.Windows.Interop.Extensions;
 using FlowLink.Platforms.Windows.Interop.SyncRoot;
@@ -389,7 +389,6 @@ public static class CloudFilter
             ref usn
         ).ThrowIfFailed("Clear in-sync state failed");
     }
-
 
     public static void SetPinnedState(string clientPath, int pinned)
     {

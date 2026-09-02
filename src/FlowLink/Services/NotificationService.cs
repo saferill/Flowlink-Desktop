@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using CommunityToolkit.WinUI;
 using FlowLink.Data.AppDatabase.Repository;
 using FlowLink.Data.Models;
@@ -163,7 +163,6 @@ public class NotificationService(
             }
         }
     }
-
 
     public async void TogglePinNotification(Notification notification)
     {

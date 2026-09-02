@@ -1,4 +1,4 @@
-using NetCoreServer;
+﻿using NetCoreServer;
 using System.Net;
 using System.Net.Sockets;
 using UdpClient = NetCoreServer.UdpClient;
@@ -105,7 +105,6 @@ public partial class Client : SslClient
         socketProvider.OnHandshaked(this);
     }
 }
-
 
 public partial class MulticastClient(string address, int port, IUdpClientProvider socketProvider, ILogger logger) : UdpClient(address, port)
 {

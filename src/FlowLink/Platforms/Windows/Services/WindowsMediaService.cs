@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
@@ -355,7 +355,6 @@ public class WindowsMediaService(
         }
     }
 
-
     private void SendPlaybackData(PlaybackInfo playbackSession)
     {
         try
@@ -486,7 +485,6 @@ public class WindowsMediaService(
             logger.Error($"Error setting volume to {volume} for device {deviceId}", ex);
         }
     }
-
 
     public void SetDefaultAudioDevice(string deviceId)
     {

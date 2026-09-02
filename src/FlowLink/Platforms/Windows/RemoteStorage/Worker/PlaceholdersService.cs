@@ -1,4 +1,4 @@
-using FlowLink.Platforms.Windows.Helpers;
+﻿using FlowLink.Platforms.Windows.Helpers;
 using FlowLink.Platforms.Windows.Interop;
 using FlowLink.Platforms.Windows.RemoteStorage.Abstractions;
 using FlowLink.Platforms.Windows.RemoteStorage.RemoteAbstractions;
@@ -133,7 +133,6 @@ public class PlaceholdersService(
         }
     }
 
-
     private SafeCreateInfo GetFilePlaceholderCreateInfo(RemoteFileInfo remoteFileInfo) =>
         new(remoteFileInfo, remoteFileInfo.RelativePath);
 
@@ -163,7 +162,6 @@ public class PlaceholdersService(
             ? await FileHelper.WaitUntilUnlocked(() => CloudFilter.CreateHFileWithOplock(clientFile, FileAccess.Write), logger)
             : CloudFilter.CreateHFile(clientFile, FileAccess.Write);
         var placeholderState = CloudFilter.GetPlaceholderState(hfile);
-
 
         if (!placeholderState.HasFlag(CldApi.CF_PLACEHOLDER_STATE.CF_PLACEHOLDER_STATE_PLACEHOLDER))
         {

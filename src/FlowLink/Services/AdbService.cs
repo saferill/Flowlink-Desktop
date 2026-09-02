@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -189,7 +189,6 @@ public class AdbService(
             logger.Error($"Error discovering codec options for device {device.Serial}: {ex.Message}", ex);
         }
     }
-
 
     private static readonly char[] separator = ['\r', '\n'];
 

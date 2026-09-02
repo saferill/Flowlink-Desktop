@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -378,7 +378,6 @@ public class NetworkService(
                 logger.Warn($"No client certificate or PublicKey mismatch; rejecting connection");
                 throw new Exception("Client certificate required");
             }
-
 
             var pairedDevice = PairedDevices.FirstOrDefault(d => d.Id == authMessage.DeviceId);
             if (pairedDevice is not null)

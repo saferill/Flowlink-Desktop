@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI;
+﻿using CommunityToolkit.WinUI;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media.Imaging;
 using FlowLink.Data.Contracts;

@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI;
+﻿using CommunityToolkit.WinUI;
 using FlowLink.Data.AppDatabase.Repository;
 using FlowLink.Data.Models;
 using FlowLink.Data.Models.Messages;
@@ -154,7 +154,6 @@ public class SmsHandlerService(
             logger.Error($"Error saving messages for device {deviceId}", ex);
         }
     }
-
 
     public async Task<List<Message>> LoadMessagesForConversation(string deviceId, long threadId)
     {

@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI;
+﻿using CommunityToolkit.WinUI;
 using FlowLink.Data.AppDatabase.Models;
 using FlowLink.Data.AppDatabase.Repository;
 using FlowLink.Data.Models;
@@ -71,7 +71,6 @@ public partial class DeviceManager(
             PhoneNumbers = []
         };
     }
-
 
     public async Task<LocalDeviceEntity> GetLocalDeviceAsync()
     {

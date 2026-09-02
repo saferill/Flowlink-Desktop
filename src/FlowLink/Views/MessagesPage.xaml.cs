@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI.Helpers;
+﻿using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml.Input;
 using FlowLink.Data.Models;
 using FlowLink.Data.Models.Messages;
@@ -118,7 +118,6 @@ public sealed partial class MessagesPage : Page
         return (string.Concat(words[0].AsSpan()[..1], words[1].AsSpan(0, 1))).ToUpper();
     }
 
-
     private void ConversationAvatarBorder_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
     {
         if (sender is Border border)
@@ -149,7 +148,6 @@ public sealed partial class MessagesPage : Page
             }
         }
     }
-
 
     private void MessageAvatarBorder_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
     {

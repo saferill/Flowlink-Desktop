@@ -1,4 +1,4 @@
-using Microsoft.Windows.AppNotifications;
+﻿using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
 using FlowLink.Platforms.Windows.Calling;
 using FlowLink.Services;
@@ -135,7 +135,6 @@ public class WindowsNotificationHandler(
         }
     }
 
-
     /// <inheritdoc />
     public async void ShowCompletedFileTransferNotification(string subtitle, string transferId, string? filePath = null, string? folderPath = null)
     {
@@ -197,7 +196,6 @@ public class WindowsNotificationHandler(
 
         return Task.CompletedTask;
     }
-
 
     /// <inheritdoc />
     public Task ShowCallNotification(string title, string text, string tag, CallState callState, Uri? icon = null)

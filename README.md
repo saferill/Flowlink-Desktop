@@ -1,97 +1,85 @@
 <div align="center">
 
-<img src="./banner.jpg" alt="FlowLink Desktop & Android Mockup Banner" width="100%" style="border-radius: 16px; margin-bottom: 20px; box-shadow: 0 12px 36px rgba(0,0,0,0.6);"/>
+<img src="./banner.jpg" alt="FlowLink Banner" width="100%" style="border-radius: 12px; margin-bottom: 16px;"/>
 
-# 💻 FlowLink Desktop
+# FlowLink Desktop
 
-### *The Lightweight, Native Windows Companion for Seamless Device Integration*
+Native Windows app to connect your PC with your Android phone.
 
-[![GitHub Android Repo](https://img.shields.io/badge/Android_Companion-FlowLink_Android-10b981?style=for-the-badge&logo=android&logoColor=white)](https://github.com/saferill/Flowlink-Android)
-[![Windows](https://img.shields.io/badge/Windows-10%20%2F%2011%20(x64)-0078d4?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/saferill/Flowlink-Desktop)
-[![.NET 9](https://img.shields.io/badge/.NET-9.0_WinUI_3-512bd4?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com)
-[![License](https://img.shields.io/badge/License-GPL_v3-f59e0b?style=for-the-badge)](LICENSE)
+[![GitHub Android Repo](https://img.shields.io/badge/Companion-FlowLink_Android-3ddc84?style=flat-square&logo=android&logoColor=white)](https://github.com/saferill/Flowlink-Android)
+[![Windows](https://img.shields.io/badge/Windows-10%20%2F%2011%20(x64)-0078d4?style=flat-square&logo=windows&logoColor=white)](https://github.com/saferill/Flowlink-Desktop)
+[![.NET 9](https://img.shields.io/badge/.NET-9.0_WinUI_3-512bd4?style=flat-square&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com)
+[![License](https://img.shields.io/badge/License-GPL_v3-blue?style=flat-square)](LICENSE)
 
 <br/>
 
-**FlowLink Desktop** is a modern, high-performance WinUI 3 application designed to seamlessly bridge your Windows PC with your Android smartphone. Experience **zero-latency real-time clipboard sync**, **encrypted peer-to-peer file transfers**, and **instant PC power controls** without third-party cloud servers.
+Built with WinUI 3 and .NET 9. Send files, sync clipboard automatically, and execute PC remote power actions from your phone over local Wi-Fi or Tailscale.
 
 </div>
 
 ---
 
-## 📸 Tampilan Aplikasi (App Screenshots)
+## Screenshots
 
 <div align="center">
 
-### 💻 Antarmuka Windows Desktop
-<img src="./screenshot_desktop.png" width="90%" style="border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); margin-bottom: 24px;"/>
+### Windows App
+<img src="./screenshot_desktop.png" width="85%"/>
 
-### 📱 Pasangan Android Mobile
-| Beranda & Remote Control | Manajemen Perangkat | Pengaturan Android |
+### Android Mobile Companion
+| Home | Devices | Settings |
 | :---: | :---: | :---: |
-| <img src="./screenshot_android_home.jpg" width="240" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);"/> | <img src="./screenshot_android_devices.jpg" width="240" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);"/> | <img src="./screenshot_android_settings.jpg" width="240" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);"/> |
+| <img src="./screenshot_android_home.jpg" width="220"/> | <img src="./screenshot_android_devices.jpg" width="220"/> | <img src="./screenshot_android_settings.jpg" width="220"/> |
 
 </div>
 
 ---
 
-## 📥 Download FlowLink (Both Devices Required)
+## Download
 
-> 💡 **Penting**: Untuk menghubungkan perangkat, pasang FlowLink di laptop/PC Windows **DAN** di smartphone Android kamu.
+Install FlowLink on both your Windows PC and your Android phone.
 
-| Platform | Download Link | Deskripsi / Format |
+| Platform | Download | Note |
 | :--- | :--- | :--- |
-| 💻 **Windows PC** | 📥 [**FlowLink Desktop Setup (.exe)**](https://github.com/saferill/Flowlink-Desktop/releases/latest) <br><br> 🗜️ [**FlowLink Desktop Portable (.zip)**](https://github.com/saferill/Flowlink-Desktop/releases/latest) | Installer resmi dengan update otomatis, atau versi Portable tanpa instalasi (Windows 10/11) |
-| 📱 **Android** | 📦 [**Download FlowLink APK (v1.0.0)**](https://github.com/saferill/Flowlink-Android/releases/latest) <br> *(Pengajuan IzzyOnDroid / F-Droid sedang dalam peninjauan)* | File APK resmi (Android 8.0+) |
+| 💻 **Windows PC** | [**FlowLink Setup (.exe)**](https://github.com/saferill/Flowlink-Desktop/releases/latest) <br/> [**Portable (.zip)**](https://github.com/saferill/Flowlink-Desktop/releases/latest) | Windows 10 & 11 (x64) |
+| 📱 **Android** | [**Download APK (v1.0.0)**](https://github.com/saferill/Flowlink-Android/releases/latest) | Android 8.0+ |
 
 ---
 
-## 🔗 Repositori Resmi
-* 💻 **Windows Desktop Repo**: [saferill/Flowlink-Desktop](https://github.com/saferill/Flowlink-Desktop)
-* 📱 **Android App Repo**: [saferill/Flowlink-Android](https://github.com/saferill/Flowlink-Android)
+## Features
+
+- **Fast File Transfer**: Direct peer-to-peer file transfer over your local network.
+- **Instant Clipboard Sync**: Copies on your PC appear immediately on your phone, and vice-versa.
+- **Power Actions**: Lock, sleep, or shutdown your PC triggered directly from Android.
+- **System Tray & Autostart**: Minimizes cleanly to the system tray and starts on Windows boot.
+- **Works with Tailscale**: Seamless discovery across different subnets.
 
 ---
 
-## 🌟 Arsitektur & Cara Kerja
+## How it works
 
 <div align="center">
-  <img src="./architecture.gif" alt="FlowLink Live Architecture Motion Flow" width="100%" style="border-radius: 16px; margin-bottom: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"/>
+  <img src="./architecture.gif" alt="FlowLink Architecture" width="100%" style="border-radius: 12px; margin-bottom: 12px;"/>
 </div>
 
-Open the interactive simulation in your browser:  
-👉 **[`architecture.html`](./architecture.html)** *(Interactive motion flow, live packet simulator, and real-time signal waveforms)*
-
 ---
 
-## 🚀 Fitur Unggulan
+## Building from source
 
-### 1. ⚡ Transfer File Super Cepat
-- Menggunakan socket buffer adaptif (hingga 4 MB mega-chunk) untuk transfer video 4K dan foto berukuran besar di jaringan Wi-Fi lokal dengan kecepatan maksimal.
+Requirements:
+- Windows 10/11
+- .NET 9 SDK
+- Visual Studio 2022 with Windows App SDK
 
-### 2. 📋 Sinkronisasi Clipboard Instan
-- Salin teks di laptop, langsung tempel (*paste*) di smartphone Android, begitu juga sebaliknya.
-
-### 3. ⏱️ Auto-Reconnect 2 Detik Setelah Laptop Nyala / Restart
-- FlowLink Desktop secara cerdas mencoba menyambung ulang setiap 2 detik ke IP HP kamu (baik Wi-Fi lokal maupun Tailscale) begitu laptop dihidupkan.
-
-### 4. 🔒 100% Aman & Peer-to-Peer
-- Seluruh komunikasi data dienkripsi langsung antar-perangkat (*End-to-End Encryption*) tanpa perantara server pihak ketiga.
-
----
-
-## 🛠️ Build dari Source Code
-
-```bash
-# Clone repository
+```powershell
 git clone https://github.com/saferill/Flowlink-Desktop.git
 cd Flowlink-Desktop
-
-# Publish Release
-dotnet publish src/FlowLink/FlowLink.csproj -c Release -r win-x64 --self-contained
+dotnet build -c Release
 ```
 
 ---
 
-## 📜 Lisensi
-Proyek ini dilisensikan di bawah lisensi **[GNU General Public License v3.0 (GPL-3.0)](LICENSE)**.
-Dikembangkan dan dirawat secara aktif oleh **[saferill](https://github.com/saferill)**.
+## License
+
+This project is licensed under the **[GNU General Public License v3.0 (GPL-3.0)](LICENSE)**.
+Created by **[saferill](https://github.com/saferill)**.

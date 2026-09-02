@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml.Media.Imaging;
+﻿using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace FlowLink.Data.Models.Messages;
 
@@ -13,7 +13,6 @@ public partial class Conversation : ObservableObject
     public BitmapImage? AvatarImage { get; set; }
 
     public string DisplayName => Contacts.Count != 0 ? string.Join(", ", Contacts.Select(s => !string.IsNullOrEmpty(s.DisplayName) ? s.DisplayName : s.Address)) : "Unknown";
-
 
     private string lastMessage = string.Empty;
     public string LastMessage

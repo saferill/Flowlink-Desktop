@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Channels;
 using FlowLink.Platforms.Windows.RemoteStorage.Abstractions;
@@ -9,7 +9,6 @@ using static Vanara.PInvoke.Shell32;
 using static Vanara.PInvoke.ShlwApi;
 
 namespace FlowLink.Platforms.Windows.RemoteStorage.Shell.Commands;
-
 
 [ComVisible(true), Guid("942952b6-3bdc-4e50-8fe2-8d2d869ca70f")]
 public class SyncCommand(

@@ -1,4 +1,4 @@
-using FlowLink.Services;
+﻿using FlowLink.Services;
 
 namespace FlowLink.ViewModels;
 
@@ -21,7 +21,6 @@ public sealed partial class CallWindowViewModel : BaseViewModel, IDisposable
         OnPropertyChanged(nameof(PrimaryCall));
         OnPropertyChanged(nameof(SecondaryCall));
     }
-
 
     [RelayCommand]
     private Task SwapCallsAsync() => callManager.SwapCallsAsync();

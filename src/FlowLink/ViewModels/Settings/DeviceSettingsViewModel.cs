@@ -1,4 +1,4 @@
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using FlowLink.Data.AppDatabase.Repository;
 using FlowLink.Data.Contracts;
 using FlowLink.Data.Enums;
@@ -306,7 +306,6 @@ public sealed partial class DeviceSettingsViewModel : BaseViewModel
             }
         }
     }
-
 
     public string? CustomArguments
     {
@@ -712,7 +711,6 @@ public sealed partial class DeviceSettingsViewModel : BaseViewModel
     }
 
     public bool CanRemoveAddress => Addresses.Count > 1;
-
 
     public DeviceSettingsViewModel(PairedDevice device)
     {

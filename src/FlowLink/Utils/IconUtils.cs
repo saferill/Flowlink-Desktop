@@ -1,4 +1,4 @@
-using Windows.Storage.Streams;
+﻿using Windows.Storage.Streams;
 
 namespace FlowLink.Utils;
 
@@ -45,7 +45,6 @@ public static class IconUtils
 
         return new Uri($"ms-appdata:///local/{fileName}");
     }
-
 
     /// <summary>
     /// Gets the URI for an app icon file in the AppIcons folder

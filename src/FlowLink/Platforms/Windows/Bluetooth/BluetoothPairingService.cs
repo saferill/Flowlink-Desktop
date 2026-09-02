@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using FlowLink.Data.Models;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Enumeration;
@@ -209,7 +209,6 @@ public sealed partial class BluetoothPairingService : IBluetoothPairingService, 
             State = new(BluetoothPairingStep.Connectivity, BluetoothPairingStatus.BluetoothRadioOff);
             return false;
         }
-
 
         try
         {

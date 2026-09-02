@@ -1,4 +1,4 @@
-using Tmds.DBus.Protocol;
+﻿using Tmds.DBus.Protocol;
 
 namespace FlowLink.Platforms.Desktop;
 
@@ -31,7 +31,6 @@ public static class NotificationHints
     /// </summary>
     public static KeyValuePair<string, VariantValue> ImagePath(string imagePath) =>
         new("image-path", VariantValue.String(imagePath));
-
 
     /// <summary>
     /// When set the server will not automatically remove the notification when an action has been invoked

@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using FlowLink.Data.AppDatabase.Repository;
 using FlowLink.Data.Models;
 using FlowLink.Platforms.Windows.Bluetooth;
@@ -428,7 +428,6 @@ public sealed class WindowsPhoneLineService(
 
         return false;
     }
-
 
     private static bool IsNameMatch(string target, string? candidate) =>
         !string.IsNullOrEmpty(candidate) &&

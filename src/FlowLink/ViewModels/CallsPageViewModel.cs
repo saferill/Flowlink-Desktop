@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI;
+﻿using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Media.Imaging;
 using FlowLink.Data.AppDatabase.Repository;
 using FlowLink.Data.Models;
@@ -102,7 +102,6 @@ public sealed partial class CallsPageViewModel : BaseViewModel
         ApplyCallingLineStatus(phoneLineService.LineStatus);
     }
 
-
     private void OnLineStatusChanged(object? sender, CallingLineStatus status)
     {
         App.MainWindow.DispatcherQueue.EnqueueAsync(() => ApplyCallingLineStatus(status));
@@ -118,7 +117,6 @@ public sealed partial class CallsPageViewModel : BaseViewModel
             ClearDialContactVisual();
         });
     }
-
 
     private void ClearDialContactVisual()
     {
@@ -222,7 +220,6 @@ public sealed partial class CallsPageViewModel : BaseViewModel
                 break;
         }
     }
-
 
     public void SearchContacts(string? searchText)
     {

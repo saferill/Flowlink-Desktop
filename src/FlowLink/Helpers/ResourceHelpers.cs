@@ -1,8 +1,7 @@
-using Microsoft.UI.Xaml.Markup;
+﻿using Microsoft.UI.Xaml.Markup;
 using Microsoft.Windows.ApplicationModel.Resources;
 
 namespace FlowLink.Helpers;
-
 
 [MarkupExtensionReturnType(ReturnType = typeof(string))]
 public sealed partial class ResourceString : MarkupExtension

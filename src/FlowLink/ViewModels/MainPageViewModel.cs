@@ -1,4 +1,4 @@
-using FlowLink.Data.AppDatabase.Repository;
+﻿using FlowLink.Data.AppDatabase.Repository;
 using FlowLink.Data.Contracts;
 using FlowLink.Data.Enums;
 using FlowLink.Data.Models;
@@ -41,7 +41,6 @@ public sealed partial class MainPageViewModel : BaseViewModel
     #endregion
 
     #region Commands
-
 
     [RelayCommand]
     public void ToggleConnection()

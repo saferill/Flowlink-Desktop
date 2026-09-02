@@ -1,4 +1,4 @@
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using MeaMod.DNS.Model;
 using MeaMod.DNS.Multicast;
 using FlowLink.Data.Contracts;
@@ -75,7 +75,6 @@ public class MdnsService(ILogger logger) : IMdnsService
             serviceProfile = null;
         }
     }
-
 
     /// <inheritdoc />
     public void StartDiscovery()

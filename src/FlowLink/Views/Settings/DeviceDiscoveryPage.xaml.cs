@@ -1,4 +1,4 @@
-using FlowLink.Data.Contracts;
+﻿using FlowLink.Data.Contracts;
 using FlowLink.Data.Items;
 using FlowLink.Data.Models;
 using FlowLink.Helpers;
@@ -53,7 +53,6 @@ public sealed partial class DeviceDiscoveryPage : Page
             }
         }
     }
-
 
     private async void ConnectButton_Click(object sender, RoutedEventArgs e)
     {

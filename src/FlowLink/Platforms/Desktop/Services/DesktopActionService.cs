@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using FlowLink.Data.Contracts;
 using FlowLink.Data.Models;

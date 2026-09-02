@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.UI.Input;
 
@@ -29,7 +29,6 @@ internal enum ERole
     eMultimedia = 1,
     eCommunications = 2
 }
-
 
 public static class InteropHelpers
 {
